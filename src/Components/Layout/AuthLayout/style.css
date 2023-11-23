@@ -5,7 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #00293b;
+    background-color: #273993;
 }
 
 
@@ -13,6 +13,10 @@
     color: #d71201;
 }
 
+
+.authImage img {
+    object-fit: cover;
+}
 
 
 .authBox {

@@ -25,7 +25,7 @@ const ChangePassword = () => {
 
     useEffect(() => {
 
-        document.title = 'Parcel Safe | Change Password';
+        document.title = 'SicknWell | Change Password';
 
         setUserData(currentUser);
     }, []);

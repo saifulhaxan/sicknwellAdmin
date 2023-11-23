@@ -15,7 +15,7 @@ const ForgetPassword = () => {
     const [formData, setFormData] = useState({})
 
     useEffect(() => {
-        document.title = 'Parcel Safe | Password Recovery';
+        document.title = 'SicknWell | Password Recovery';
     }, [])
 
     const handleClick = (e) => {

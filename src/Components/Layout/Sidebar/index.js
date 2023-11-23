@@ -6,8 +6,9 @@ import {
   faBorderAll,
   faUser,
   faEye,
-  faShippingFast,
-  faTasks
+  faMoneyBill,
+  faTasks,
+  faHistory
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faMessage,
@@ -38,20 +39,29 @@ export const Sidebar = (props) => {
           </Link>
         </li>
         <li className="sidebar-li">
-          <Link className={`sideLink ${location.pathname.includes('/issue-administration') ? 'active' : ''}`} to="/issue-administration">
+          <Link className={`sideLink ${location.pathname.includes('#') ? 'active' : ''}`} to="#">
             <span className="sideIcon">
               <FontAwesomeIcon icon={faEye} />
             </span>
-            <span className="sideLinkText">Issue Administration</span>
+            <span className="sideLinkText">Members Management</span>
           </Link>
         </li>
 
         <li className="sidebar-li">
-          <Link className={`sideLink ${location.pathname.includes('/safe-administration') ? 'active' : ''}`} to="/safe-administration">
+          <Link className={`sideLink ${location.pathname.includes('/#') ? 'active' : ''}`} to="/#">
             <span className="sideIcon">
-              <FontAwesomeIcon icon={faShippingFast} />
+              <FontAwesomeIcon icon={faMoneyBill} />
             </span>
-            <span className="sideLinkText">Safe Administration</span>
+            <span className="sideLinkText">Subscription Management</span>
+          </Link>
+        </li>
+
+        <li className="sidebar-li">
+          <Link className={`sideLink ${location.pathname.includes('/#') ? 'active' : ''}`} to="/#">
+            <span className="sideIcon">
+              <FontAwesomeIcon icon={faHistory} />
+            </span>
+            <span className="sideLinkText">Provider's History</span>
           </Link>
         </li>
 

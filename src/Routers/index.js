@@ -27,7 +27,7 @@ import Error from "../Screens/Error";
 
 export default function AdminRouter() {
   return (
-    <BrowserRouter basename="/parcelSafe">
+    <BrowserRouter basename="/admin">
       <Routes>
         <Route path="/" element={<AdminLogin />} />
         <Route path="/login" element={<AdminLogin />} />

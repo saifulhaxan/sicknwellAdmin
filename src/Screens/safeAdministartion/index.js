@@ -68,7 +68,7 @@ export const SafeManagement = () => {
 
 
   useEffect(() => {
-    document.title = 'Parcel Safe | User Management';
+    document.title = 'SicknWell | User Management';
     const LogoutData = localStorage.getItem('login');
     document.querySelector('.loaderBox').classList.remove("d-none");
     fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/safe-list',

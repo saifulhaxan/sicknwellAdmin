@@ -18,10 +18,10 @@ export const Dashboard = () => {
 
   useEffect(() => {
 
-    document.title = 'Parcel Safe | Dashboard';
+    document.title = 'SicknWell | Dashboard';
 
     document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'Parcel Safe | User Management';
+    document.title = 'SicknWell | Dashboard';
     const LogoutData = localStorage.getItem('login');
 
     fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/dashboarddata',
@@ -77,7 +77,8 @@ export const Dashboard = () => {
                       <div className="statsCard">
                         <div className="statsContent">
                           <div className="statsData">
-                            <h3 className="statsNumber">{statistics.data?.total_user}</h3>
+                            {/* <h3 className="statsNumber">{statistics.data?.total_user}</h3> */}
+                            <h3 className="statsNumber">100</h3>
                             <p className="statsText">Total Users</p>
                           </div>
                         </div>
@@ -100,8 +101,9 @@ export const Dashboard = () => {
                       <div className="statsCard">
                         <div className="statsContent">
                           <div className="statsData">
-                            <h3 className="statsNumber">{statistics.data?.issue_pending}</h3>
-                            <p className="statsText">Pending Issues</p>
+                            {/* <h3 className="statsNumber">{statistics.data?.issue_pending}</h3> */}
+                            <h3 className="statsNumber">50</h3>
+                            <p className="statsText">Total Providers</p>
                           </div>
                         </div>
                         <div className="statsChange">
@@ -123,8 +125,9 @@ export const Dashboard = () => {
                       <div className="statsCard">
                         <div className="statsContent">
                           <div className="statsData">
-                            <h3 className="statsNumber">{statistics.data?.total_issues}</h3>
-                            <p className="statsText">Total Issues</p>
+                            {/* <h3 className="statsNumber">{statistics.data?.total_issues}</h3> */}
+                            <h3 className="statsNumber">80</h3>
+                            <p className="statsText">Total Subsciptions</p>
                           </div>
                         </div>
                         <div className="statsChange">

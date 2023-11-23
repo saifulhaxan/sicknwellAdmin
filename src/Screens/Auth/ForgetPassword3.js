@@ -16,7 +16,7 @@ const ForgetPassword3 = () => {
     const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        document.title = 'Parcel Safe | Password Recovery';
+        document.title = 'SicknWell | Password Recovery';
     }, [])
 
 

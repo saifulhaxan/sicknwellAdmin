@@ -3,7 +3,7 @@
     height: calc(100vh - 6rem);
     position: fixed;
     transition: all 0.35s ease-in-out, left 0.35s ease-in-out, margin-right 0.35s ease-in-out, right 0.35s ease-in-out;
-    background: #00293B;
+    background: #273993;
     z-index: 2;
     top: 6rem;
     padding-bottom: 6rem;

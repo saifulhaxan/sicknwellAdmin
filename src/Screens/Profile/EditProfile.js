@@ -36,7 +36,7 @@ const EditProfile = () => {
 
     useEffect(() => {
 
-        document.title = 'Parcel Safe | Edit Profile';
+        document.title = 'SicknWell | Edit Profile';
         setOptionData(country);
         setUserData(currentUser);
     },);

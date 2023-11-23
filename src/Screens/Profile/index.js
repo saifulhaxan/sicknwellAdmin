@@ -16,7 +16,7 @@ const Profile = () => {
     const [userData, setUserData] = useState({});
 
     useEffect(() => {
-        document.title = 'Parcel Safe | My Profile';
+        document.title = 'SicknWell | My Profile';
 
         setUserData(currentUser);
     }, []);

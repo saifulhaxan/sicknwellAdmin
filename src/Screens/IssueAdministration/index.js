@@ -61,7 +61,7 @@ export const IssueAdministration = () => {
 
   useEffect(() => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'Parcel Safe | Issue Administartion';
+    document.title = 'SicknWell | Issue Administartion';
     const LogoutData = localStorage.getItem('login');
 
     fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/issue-listing',

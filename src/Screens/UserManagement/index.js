@@ -47,16 +47,16 @@ export const UserManagement = () => {
     setInputValue(e.target.value);
   }
 
-  const filterData = data.filter(item =>
-  (
-    (selectedStatus === '' || item.status == selectedStatus) &&
-    (item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-      item.number.toLowerCase().includes(inputValue.toLowerCase()))
-  )
-  );
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
+  // const filterData = data.filter(item =>
+  // (
+  //   (selectedStatus === '' || item.status == selectedStatus) &&
+  //   (item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+  //     item.number.toLowerCase().includes(inputValue.toLowerCase()))
+  // )
+  // );
+  // const indexOfLastItem = currentPage * itemsPerPage;
+  // const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  // const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
 
 
   // currentItems = currentItems.filter((item) => {
@@ -65,33 +65,33 @@ export const UserManagement = () => {
   //   return selectedStatus === '' || item.status == 0;
   // });
   useEffect(() => {
-    document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'Parcel Safe | User Management';
+    // document.querySelector('.loaderBox').classList.remove("d-none");
+    document.title = 'SicknWell | User Management';
     const LogoutData = localStorage.getItem('login');
 
-    fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/user-listing',
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LogoutData}`
-        },
-      }
-    )
+    // fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/user-listing',
+    //   {
+    //     method: 'GET',
+    //     headers: {
+    //       'Accept': 'application/json',
+    //       'Content-Type': 'application/json',
+    //       'Authorization': `Bearer ${LogoutData}`
+    //     },
+    //   }
+    // )
 
-      .then(response =>
-        response.json()
-      )
-      .then((data) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(data.users)
-        setData(data.users);
-      })
-      .catch((error) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(error)
-      })
+    //   .then(response =>
+    //     response.json()
+    //   )
+    //   .then((data) => {
+    //     document.querySelector('.loaderBox').classList.add("d-none");
+    //     console.log(data.users)
+    //     setData(data.users);
+    //   })
+    //   .catch((error) => {
+    //     document.querySelector('.loaderBox').classList.add("d-none");
+    //     console.log(error)
+    //   })
 
 
   }, []);
@@ -114,20 +114,20 @@ export const UserManagement = () => {
       title: "Phone",
     },
     {
-      key: "numberofsafe",
-      title: "No Of Safes",
+      key: "zip",
+      title: "Zip Code",
     },
     {
       key: "registered",
       title: "Registered On",
     },
     {
-      key: "signim",
-      title: "Last Sign In",
+      key: "driving",
+      title: "Driving License",
     },
     {
-      key: "status",
-      title: "Status",
+      key: "dob",
+      title: "DOB",
     },
     {
       key: "actions",
@@ -214,14 +214,13 @@ export const UserManagement = () => {
                       headers={maleHeaders}
 
                     >
-                      <tbody>
+                      {/* <tbody>
                         {currentItems.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
                               {item.name}
                             </td>
-                            {/* <td>{item.username}</td> */}
                             <td>{item.email}</td>
                             <td>{item.number}</td>
                             <td>13</td>
@@ -241,14 +240,15 @@ export const UserManagement = () => {
                             </td>
                           </tr>
                         ))}
-                      </tbody>
+                      </tbody> */}
                     </CustomTable>
-                    <CustomPagination
+
+                    {/* <CustomPagination
                       itemsPerPage={itemsPerPage}
                       totalItems={filterData.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
-                    />
+                    /> */}
                   </div>
                 </div>
               </div>

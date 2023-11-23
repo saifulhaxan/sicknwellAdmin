@@ -21,7 +21,7 @@ export const AuthLayout = (props) => {
                                             logo ?
                                                 <img src={logo} alt="authLogo" />
                                                 :
-                                                <h1>Parcel <span>Safe</span></h1>
+                                                <h1>Sickn <span>Well</span></h1>
                                         }
 
                                     </div>
@@ -40,8 +40,8 @@ export const AuthLayout = (props) => {
                             </div>
                         </div>
                         <div className="col-lg-6 d-none d-lg-block">
-                            <div className='authImage'>
-                                <img src={authImage} alt="authImage" />
+                            <div className='authImage h-100'>
+                                <img src={authImage} alt="authImage" className="h-100" />
                             </div>
                         </div>
                     </div>
