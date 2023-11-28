@@ -18,6 +18,7 @@ import "./style.css";
 import { AuthLayout } from '../../Components/Layout/AuthLayout';
 import CustomButton from '../../Components/CustomButton';
 import CustomInput from "../../Components/CustomInput"
+import { BASE_URL } from '../../Api/apiConfig';
 
 
 const AdminLogin = () => {
@@ -46,7 +47,7 @@ const AdminLogin = () => {
         formDataMethod.append('password', formData.password);
         console.log(formData)
 
-        const apiUrl = 'http://member.sicknwell.com:8000/api/v1/login/';
+        const apiUrl = `${BASE_URL}api/v1/login/`;
 
 
         try {
