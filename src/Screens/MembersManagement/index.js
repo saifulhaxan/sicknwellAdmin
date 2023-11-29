@@ -18,7 +18,7 @@ import { SelectBox } from "../../Components/CustomSelect";
 import "./style.css";
 import { BASE_URL } from "../../Api/apiConfig";
 
-export const UserManagement = () => {
+export const MembersManagement = () => {
 
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -68,10 +68,10 @@ export const UserManagement = () => {
   
   useEffect(() => {
     // document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'SicknWell | User Management';
+    document.title = 'SicknWell | Members Management';
 
 
-    fetch(`${BASE_URL}api/v1/users/list_all_users/`,
+    fetch(`${BASE_URL}api/v1/member/list_all_members/`,
       {
         method: 'GET',
         headers: {
@@ -87,7 +87,7 @@ export const UserManagement = () => {
       )
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
-        // console.log(data)
+        console.log(data)
         setData(data);
       })
       .catch((error) => {
@@ -179,7 +179,7 @@ export const UserManagement = () => {
               <div className="dashCard">
                 <div className="row mb-3 justify-content-between">
                   <div className="col-md-4 mb-2">
-                    <h2 className="mainTitle">User Management</h2>
+                    <h2 className="mainTitle">Members Management</h2>
                   </div>
                   <div className="col-md-8 mb-2">
                     <div className="addUser align-items-end">
