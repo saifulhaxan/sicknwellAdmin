@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 05/12/2023 - 01:07:25
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 05/12/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 
 import AdminLogin from "../Screens/Auth/Login";
@@ -11,14 +23,15 @@ import UserManagementDetail from "../Screens/UserManagement/UserDetails"
 import { EditUserDetails } from "../Screens/UserManagement/editUser";
 
 import { MembersManagement } from "../Screens/MembersManagement";
+import MemeberDetails from "../Screens/MembersManagement/MemberDetails";
 
-import { IssueAdministration } from "../Screens/IssueAdministration";
-import { IssueDetail } from "../Screens/IssueAdministration/IssueDetails";
-import { EditSafeDetails } from "../Screens/safeAdministartion/editDetails";
+// import { IssueAdministration } from "../Screens/IssueAdministration";
+// import { IssueDetail } from "../Screens/IssueAdministration/IssueDetails";
+// import { EditSafeDetails } from "../Screens/safeAdministartion/editDetails";
 
-import { SafeManagement } from "../Screens/safeAdministartion/";
-import { SafeDetails } from "../Screens/safeAdministartion/safeDetails";
-import { AddSafe } from "../Screens/safeAdministartion/addSafe";
+// import { SafeManagement } from "../Screens/safeAdministartion/";
+// import { SafeDetails } from "../Screens/safeAdministartion/safeDetails";
+// import { AddSafe } from "../Screens/safeAdministartion/addSafe";
 
 import Profile from "../Screens/Profile";
 import EditProfile from "../Screens/Profile/EditProfile";
@@ -44,14 +57,15 @@ export default function AdminRouter() {
         <Route path="/user-management/edit-detail/:id" element={<ProtectedRoutes Components={EditUserDetails} />} />
 
         <Route path="/member-management" element={<ProtectedRoutes Components={MembersManagement} />} />
+        <Route path="/member-management/members-detail/:id" element={<ProtectedRoutes Components={MemeberDetails} />} />
 
-        <Route path="/issue-administration" element={<ProtectedRoutes Components={IssueAdministration} />} />
+        {/* <Route path="/issue-administration" element={<ProtectedRoutes Components={IssueAdministration} />} />
         <Route path="/issue-administration/issue-detail/:id" element={<ProtectedRoutes Components={IssueDetail} />} />
 
         <Route path="/safe-administration" element={<ProtectedRoutes Components={SafeManagement} />} />
         <Route path="/safe-administration/safe-detail/:id" element={<ProtectedRoutes Components={SafeDetails} />} />
         <Route path="/safe-administration/edit-detail/:id" element={<ProtectedRoutes Components={EditSafeDetails} />} />
-        <Route path="/add-safe/" element={<ProtectedRoutes Components={AddSafe} />} />
+        <Route path="/add-safe/" element={<ProtectedRoutes Components={AddSafe} />} /> */}
 
         <Route path="/profile" element={<ProtectedRoutes Components={Profile} />} />
         <Route path="/profile/edit-profile" element={<ProtectedRoutes Components={EditProfile} />} />

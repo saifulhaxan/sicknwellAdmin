@@ -1,13 +1,27 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 05/12/2023 - 00:20:56
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 05/12/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import BackButton from "../../Components/BackButton";
 import CustomModal from "../../Components/CustomModal";
+import { BASE_URL } from "../../Api/apiConfig";
 
 const UserManagementDetail = () => {
 
   const { id } = useParams();
-
+  const LogoutData = localStorage.getItem('login');
+  console.log(LogoutData)
 
 
   const [profileData, setProfileData] = useState({});
@@ -28,14 +42,14 @@ const UserManagementDetail = () => {
 
   useEffect(() => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    const LogoutData = localStorage.getItem('login');
-    fetch(`https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/get-user/${id}`,
+    
+    fetch(`${BASE_URL}api/v1/users/${id}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LogoutData}`
+          'Authorization': `Token ${LogoutData}`
         },
       }
     )
@@ -43,7 +57,7 @@ const UserManagementDetail = () => {
         return response.json()
       })
       .then((data) => {
-        setProfileData(data.users)
+        setProfileData(data)
         document.querySelector('.loaderBox').classList.add("d-none");
         console.log(data)
       })
@@ -70,48 +84,63 @@ const UserManagementDetail = () => {
             <div className="col-12">
               <div className="row mb-3 justify-content-end">
                 <div className="col-lg-4 text-end order-1 order-lg-2 mb-3">
-                  <button onClick={() => {
+                  {/* <button onClick={() => {
                     profileData.status ? setShowModal(true) : setShowModal3(true)
-                  }} className="notButton primaryColor fw-bold text-decoration-underline">Mark as {profileData.status ? 'Inactive' : 'Active'}</button>
-                  <span className={`statusBadge ${profileData.status == 1 ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{profileData.status == 1 ? 'Active' : 'Inactive'}</span>
+                  }} className="notButton primaryColor fw-bold text-decoration-underline">Mark as {profileData.status ? 'Inactive' : 'Active'}</button> */}
+                  <span className={`statusBadge ${profileData?.is_active == true ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{profileData.is_active == true ? 'Active' : 'Inactive'}</span>
                 </div>
               </div>
               <div className="row">
-                <div className="col-lg-8">
+                <div className="col-lg-12">
                   <div className="row">
-                    <div className="col-xl-6 col-md-6 mb-3">
-                      <h4 className="secondaryLabel">Name</h4>
-                      <p className="secondaryText">{profileData.name}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">First Name</h4>
+                      <p className="secondaryText">{profileData?.first_name}</p>
                     </div>
-                    <div className="col-xl-6 col-md-6 mb-3">
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Middle Name</h4>
+                      <p className="secondaryText">{profileData?.middle_name}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Last Name</h4>
+                      <p className="secondaryText">{profileData?.last_name}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Email Address</h4>
-                      <p className="secondaryText">{profileData.email}</p>
+                      <p className="secondaryText">{profileData?.email}</p>
                     </div>
-                    <div className="col-xl-6 col-md-6 mb-3">
-                      <h4 className="secondaryLabel">Phone Number</h4>
-                      <p className="secondaryText">{profileData.number}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Phone No </h4>
+                      <p className="secondaryText">{profileData?.phone_number}</p>
                     </div>
-                    <div className="col-xl-6 col-md-6 mb-3">
-                      <h4 className="secondaryLabel">Country</h4>
-                      <p className="secondaryText">{profileData.country}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">DOB </h4>
+                      <p className="secondaryText">{profileData?.dob}</p>
                     </div>
-                    <div className="col-xl-6 col-md-6 mb-3">
-                      <h4 className="secondaryLabel">Postal Code</h4>
-                      <p className="secondaryText">{profileData.postal_code}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Address</h4>
+                      <p className="secondaryText">{profileData?.address}</p>
                     </div>
-                    <div className="col-xl-6 col-md-6 mb-3">
+                    <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">City</h4>
-                      <p className="secondaryText">{profileData.city}</p>
+                      <p className="secondaryText">{profileData?.city}</p>
                     </div>
-                    <div className="col-xl-6 mb-3">
-                      <h4 className="secondaryLabel">Address 1</h4>
-                      <p className="secondaryText">{profileData.address_1}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Zip Code</h4>
+                      <p className="secondaryText">{profileData?.zip_code}</p>
                     </div>
-                    <div className="col-xl-6 mb-3">
-                      <h4 className="secondaryLabel">Address 2</h4>
-                      <p className="secondaryText">{profileData?.address_2}</p>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">User Name</h4>
+                      <p className="secondaryText">{profileData?.username}</p>
                     </div>
-
+                     <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Additional Members</h4>
+                      <p className="secondaryText">{`${profileData?.additional_member} Members`}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Plan</h4>
+                      <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 30/11/2023 - 00:48:58
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 30/11/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -58,20 +70,9 @@ export const MembersManagement = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
 
-
-  // currentItems = currentItems.filter((item) => {
-  //   console.log(item.status)
-  //   // Replace 'status' with the actual property in your data that represents the status
-  //   return selectedStatus === '' || item.status == 0;
-  // });
-
-  
-  useEffect(() => {
-    // document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'SicknWell | Members Management';
-
-
-    fetch(`${BASE_URL}api/v1/member/list_all_members/`,
+  const UserListing = () => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}api/v1/users/list_all_users/`,
       {
         method: 'GET',
         headers: {
@@ -94,8 +95,19 @@ export const MembersManagement = () => {
         document.querySelector('.loaderBox').classList.add("d-none");
         console.log(error)
       })
+  }
 
-    
+  // currentItems = currentItems.filter((item) => {
+  //   console.log(item.status)
+  //   // Replace 'status' with the actual property in your data that represents the status
+  //   return selectedStatus === '' || item.status == 0;
+  // });
+
+
+  useEffect(() => {
+    // document.querySelector('.loaderBox').classList.remove("d-none");
+    document.title = 'SicknWell | Members Management';
+    UserListing()
   }, []);
 
   console.log(data)
@@ -211,6 +223,7 @@ export const MembersManagement = () => {
                 </div>
                 <div className="row mb-3">
                   <div className="col-12">
+
                     <CustomTable
                       headers={maleHeaders}
 
@@ -227,7 +240,8 @@ export const MembersManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role}</td>
+                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Admin'}</td>
+
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
                             {/* <td className={item?.status == 1 ? 'greenColor' : "redColor"}>{item?.status == 1 ? 'Active' : "Inactive"}</td> */}
@@ -237,8 +251,8 @@ export const MembersManagement = () => {
                                   <FontAwesomeIcon icon={faEllipsisV} />
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
-                                  <Link to={`/user-management/user-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
-                                  <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
+                                  <Link to={`/member-management/members-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
+                                  {/* <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link> */}
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -252,7 +266,7 @@ export const MembersManagement = () => {
                       totalItems={filterData.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
-                    /> 
+                    />
                   </div>
                 </div>
               </div>

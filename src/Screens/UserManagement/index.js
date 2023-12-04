@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 30/11/2023 - 00:09:57
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 30/11/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
@@ -58,19 +70,8 @@ export const UserManagement = () => {
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
 
-
-  // currentItems = currentItems.filter((item) => {
-  //   console.log(item.status)
-  //   // Replace 'status' with the actual property in your data that represents the status
-  //   return selectedStatus === '' || item.status == 0;
-  // });
-
-  
-  useEffect(() => {
-    // document.querySelector('.loaderBox').classList.remove("d-none");
-    document.title = 'SicknWell | User Management';
-
-
+  const UserListing = () => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
     fetch(`${BASE_URL}api/v1/users/list_all_users/`,
       {
         method: 'GET',
@@ -94,8 +95,20 @@ export const UserManagement = () => {
         document.querySelector('.loaderBox').classList.add("d-none");
         console.log(error)
       })
+  }
 
-    
+
+  // currentItems = currentItems.filter((item) => {
+  //   console.log(item.status)
+  //   // Replace 'status' with the actual property in your data that represents the status
+  //   return selectedStatus === '' || item.status == 0;
+  // });
+
+
+  useEffect(() => {
+    // document.querySelector('.loaderBox').classList.remove("d-none");
+    document.title = 'SicknWell | User Management';
+    UserListing()
   }, []);
 
   console.log(data)
@@ -227,7 +240,7 @@ export const UserManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role}</td>
+                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Admin'}</td>
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
                             {/* <td className={item?.status == 1 ? 'greenColor' : "redColor"}>{item?.status == 1 ? 'Active' : "Inactive"}</td> */}
@@ -252,7 +265,7 @@ export const UserManagement = () => {
                       totalItems={filterData.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
-                    /> 
+                    />
                   </div>
                 </div>
               </div>
