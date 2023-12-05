@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 06/12/2023 - 01:07:40
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 06/12/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
@@ -6,29 +18,20 @@ import CustomModal from "../../Components/CustomModal";
 import CustomInput from '../../Components/CustomInput';
 import { SelectBox } from "../../Components/CustomSelect";
 import CustomButton from "../../Components/CustomButton";
+import { BASE_URL } from "../../Api/apiConfig";
 export const EditUserDetails = () => {
 
   const { id } = useParams();
 
-  const [formData, setFormData] = useState({
-    name: '',
-    postal_code: '',
-    address_1: '',
-    address_2: '',
-    country: '',
-    city: '',
-    number: '',
-    status: ''
-
-  });
+  const [formData, setFormData] = useState({});
 
   const statusOption = [
     {
-      code: 0,
+      code: false,
       name: 'Inactive'
     },
     {
-      code: 1,
+      code: true,
       name: 'Active'
     }
   ]
@@ -69,7 +72,7 @@ export const EditUserDetails = () => {
     }
 
     // Make the fetch request
-    fetch(`https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/usereditspecific/${id}`, {
+    fetch(`${BASE_URL}/api/v1/users/${id}`, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -88,15 +91,16 @@ export const EditUserDetails = () => {
   };
 
 
-  useEffect(() => {
+  const GetUserDetail = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/get-user/${id}`,
+    
+    fetch(`${BASE_URL}api/v1/users/${id}`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LogoutData}`
+          'Authorization': `Token ${LogoutData}`
         },
       }
     )
@@ -104,14 +108,18 @@ export const EditUserDetails = () => {
         return response.json()
       })
       .then((data) => {
+        setFormData(data)
         document.querySelector('.loaderBox').classList.add("d-none");
-        setFormData(data.users)
         console.log(data)
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         console.log(error);
       })
+  }
+
+  useEffect(() => {
+    GetUserDetail()
   }, []);
 
 
@@ -133,7 +141,7 @@ export const EditUserDetails = () => {
             <div className="col-12">
               <div className="row mb-3 justify-content-end">
                 <div className="col-lg-4 text-end order-1 order-lg-2 mb-3">
-                  <span className={`statusBadge ${formData.status == 1 ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{formData.status == 1 ? 'Active' : 'Inactive'}</span>
+                  <span className={`statusBadge ${formData.is_active == true ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{formData.is_active == true ? 'Active' : 'Inactive'}</span>
                 </div>
               </div>
               <form onSubmit={handleSubmit}>
@@ -142,15 +150,86 @@ export const EditUserDetails = () => {
                     <div className="row">
                       <div className="col-md-4 mb-4">
                         <CustomInput
-                          label='Name'
+                          label='First Name'
                           required
-                          id='name'
+                          id='firtname'
                           type='text'
-                          placeholder='Enter Safe'
+                          placeholder='Enter First Name'
                           labelClass='mainLabel'
                           inputClass='mainInput'
-                          name="name"
-                          value={formData.name}
+                          name="first_name"
+                          value={formData?.first_name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='Middle Name'
+                          required
+                          id='mname'
+                          type='text'
+                          placeholder='Enter Middle Name'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="middle_name"
+                          value={formData?.middle_name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='Last Name'
+                          required
+                          id='mname'
+                          type='text'
+                          placeholder='Enter Last Name'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="last_name"
+                          value={formData?.last_name}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='Email'
+                          required
+                          id='mname'
+                          type='text'
+                          placeholder='Enter Email'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="email"
+                          disabled
+                          value={formData?.email}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='Phone'
+                          required
+                          id='mname'
+                          type='text'
+                          placeholder='Enter Phone'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="phone_number"
+                          value={formData?.phone_number}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='DOB'
+                          required
+                          id='mname'
+                          type='date'
+                          placeholder='Enter DoB'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="dob"
+                          value={formData?.dob}
                           onChange={handleChange}
                         />
                       </div>
@@ -163,22 +242,8 @@ export const EditUserDetails = () => {
                           placeholder='Enter Address'
                           labelClass='mainLabel'
                           inputClass='mainInput'
-                          name="address_1"
-                          value={formData.address_1}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="col-md-4 mb-4">
-                        <CustomInput
-                          label='Address 2'
-                          required
-                          id='address'
-                          type='text'
-                          placeholder='Enter Address'
-                          labelClass='mainLabel'
-                          inputClass='mainInput'
-                          name="address_2"
-                          value={formData.address_2}
+                          name="address"
+                          value={formData.address}
                           onChange={handleChange}
                         />
                       </div>
@@ -198,40 +263,26 @@ export const EditUserDetails = () => {
                       </div>
                       <div className="col-md-4 mb-4">
                         <CustomInput
-                          label='Postal Code'
+                          label='Zip Code'
                           required
                           id='postalCode'
                           type='number'
-                          placeholder='Enter Postal Code'
+                          placeholder='Enter Zip Code'
                           labelClass='mainLabel'
                           inputClass='mainInput'
-                          name="postal_code"
-                          value={formData.postal_code}
-                          onChange={handleChange}
-                        />
-                      </div>
-                      <div className="col-md-4 mb-4">
-                        <CustomInput
-                          label='Country'
-                          required
-                          id='country'
-                          type='text'
-                          placeholder='Enter Country'
-                          labelClass='mainLabel'
-                          inputClass='mainInput'
-                          name="country"
-                          value={formData.country}
+                          name="zip_code"
+                          value={formData.zip_code}
                           onChange={handleChange}
                         />
                       </div>
                       <div className="col-md-4 mb-4">
                         <SelectBox
                           selectClass="mainInput"
-                          name="status"
+                          name="is_active"
                           label="Status"
                           required
                           placeholder="Select Status"
-                          value={formData.status}
+                          value={formData?.is_active}
                           option={statusOption}
                           onChange={handleChange}
                         />
