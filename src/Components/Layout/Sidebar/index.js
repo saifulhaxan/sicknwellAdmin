@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 14/12/2023 - 23:44:09
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 14/12/2023
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 
@@ -57,11 +69,11 @@ export const Sidebar = (props) => {
         </li>
 
         <li className="sidebar-li">
-          <Link className={`sideLink ${location.pathname.includes('/#') ? 'active' : ''}`} to="/#">
+          <Link className={`sideLink ${location.pathname.includes('/provider-management') ? 'active' : ''}`} to="/provider-management">
             <span className="sideIcon">
               <FontAwesomeIcon icon={faHistory} />
             </span>
-            <span className="sideLinkText">Provider's History</span>
+            <span className="sideLinkText">Provider Management</span>
           </Link>
         </li>
 

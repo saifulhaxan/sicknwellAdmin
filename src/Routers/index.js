@@ -24,6 +24,10 @@ import { EditUserDetails } from "../Screens/UserManagement/editUser";
 
 import { MembersManagement } from "../Screens/MembersManagement";
 import MemeberDetails from "../Screens/MembersManagement/MemberDetails";
+import { ProviderManagement } from "../Screens/ProviderManagement";
+import ProviderDetails from "../Screens/ProviderManagement/ProviderDetails";
+import { EditProvider } from "../Screens/ProviderManagement/editProvider";
+import { AddProvider } from "../Screens/ProviderManagement/AddProvider";
 
 // import { IssueAdministration } from "../Screens/IssueAdministration";
 // import { IssueDetail } from "../Screens/IssueAdministration/IssueDetails";
@@ -58,6 +62,10 @@ export default function AdminRouter() {
 
         <Route path="/member-management" element={<ProtectedRoutes Components={MembersManagement} />} />
         <Route path="/member-management/members-detail/:id" element={<ProtectedRoutes Components={MemeberDetails} />} />
+        <Route path="/provider-management" element={<ProtectedRoutes Components={ProviderManagement} />} />
+        <Route path="/provider-management/provider-detail/:id" element={<ProtectedRoutes Components={ProviderDetails} />} />
+        <Route path="/provider-management/edit-detail/:id" element={<ProtectedRoutes Components={EditProvider} />} />
+        <Route path="/add-provider" element={<ProtectedRoutes Components={AddProvider} />} />
 
         {/* <Route path="/issue-administration" element={<ProtectedRoutes Components={IssueAdministration} />} />
         <Route path="/issue-administration/issue-detail/:id" element={<ProtectedRoutes Components={IssueDetail} />} />
