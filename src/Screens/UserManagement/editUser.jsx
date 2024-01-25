@@ -64,7 +64,9 @@ export const EditUserDetails = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     document.querySelector('.loaderBox').classList.remove("d-none");
-
+    delete formData?.last_login
+    delete formData?.groups
+    delete formData?.user_permissions
     // Create a new FormData object
     const formDataMethod = new FormData();
     for (const key in formData) {
@@ -72,11 +74,11 @@ export const EditUserDetails = () => {
     }
 
     // Make the fetch request
-    fetch(`${BASE_URL}/api/v1/users/${id}`, {
-      method: 'POST',
+    fetch(`${BASE_URL}/api/v1/users/${id}/`, {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${LogoutData}`
+        'Authorization': `Token ${LogoutData}`
       },
       body: formDataMethod // Use the FormData object as the request body
     })
@@ -94,7 +96,7 @@ export const EditUserDetails = () => {
   const GetUserDetail = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
     
-    fetch(`${BASE_URL}api/v1/users/${id}`,
+    fetch(`${BASE_URL}api/v1/users/${id}/`,
       {
         method: 'GET',
         headers: {

@@ -40,10 +40,12 @@ const UserManagementDetail = () => {
     setShowModal4(true)
   }
 
+  console.log(BASE_URL)
+
   useEffect(() => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    
-    fetch(`${BASE_URL}api/v1/users/${id}`,
+    console.log(BASE_URL)
+    fetch(`${BASE_URL}api/v1/users/${id}/`,
       {
         method: 'GET',
         headers: {

@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 25/01/2024 - 22:46:11
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 25/01/2024
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
@@ -6,6 +18,7 @@ import CustomModal from "../../Components/CustomModal";
 import CustomInput from '../../Components/CustomInput';
 import { SelectBox } from "../../Components/CustomSelect";
 import CustomButton from "../../Components/CustomButton";
+import { BASE_URL } from "../../Api/apiConfig";
 export const EditUserDetails = () => {
 
   const { id } = useParams();
@@ -69,8 +82,8 @@ export const EditUserDetails = () => {
     }
 
     // Make the fetch request
-    fetch(`https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/usereditspecific/${id}`, {
-      method: 'POST',
+    fetch(`${BASE_URL}api/v1/users/${id}`, {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Authorization': `Bearer ${LogoutData}`
@@ -90,7 +103,7 @@ export const EditUserDetails = () => {
 
   useEffect(() => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/get-user/${id}`,
+    fetch(`${BASE_URL}api/v1/users/${id}/`,
       {
         method: 'GET',
         headers: {

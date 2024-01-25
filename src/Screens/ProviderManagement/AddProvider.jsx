@@ -72,8 +72,8 @@ export const AddProvider = () => {
     fetch(`${BASE_URL}api/v1/provider-directories/`, {
       method: 'POST',
       headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${LogoutData}`
+        'Accept': 'application/json',
+        'Authorization': `Token ${LogoutData}`
       },
       body: formDataMethod // Use the FormData object as the request body
     })

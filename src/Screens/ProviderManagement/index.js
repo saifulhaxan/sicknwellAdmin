@@ -236,7 +236,7 @@ export const ProviderManagement = () => {
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
                               <div className="tableImage">
-                                <img src={`https://member.sicknwell.com` + item?.business_image} className="mw-100" />
+                                <img src={`https://member.sicknwell.com/backend` + item?.business_image} className="mw-100" />
                               </div>
                             </td>
                             <td className="text-capitalize">

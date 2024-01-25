@@ -52,7 +52,7 @@ const MemeberDetails = () => {
   const PrimaryUserDetai = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
     document.querySelector('body').classList.add('loaderShow');
-    fetch(`${BASE_URL}api/v1/users/${id}`,
+    fetch(`${BASE_URL}api/v1/users/${id}/`,
       {
         method: 'GET',
         headers: {
