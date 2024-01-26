@@ -197,7 +197,7 @@ export const ProviderManagement = () => {
                   </div> */}
                   <div className="col-md-8 mb-2">
                     <div className="addUser align-items-end">
-                      <CustomButton text="Add New Provider" variant='primaryButton' className="mb-3" onClick={addProvider} />
+                     
                       <SelectBox
                         selectClass="mainInput"
                         name="sort"
@@ -221,6 +221,7 @@ export const ProviderManagement = () => {
                         }}
                       /> */}
                       <CustomInput type="text" placeholder="Search by Business Name..." value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomButton text="Add New Provider" variant='primaryButton' className="mb-3" onClick={addProvider} />
                     </div>
                   </div>
                 </div>
@@ -236,7 +237,7 @@ export const ProviderManagement = () => {
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
                               <div className="tableImage">
-                                <img src={`https://member.sicknwell.com/backend` + item?.business_image} className="mw-100" />
+                                <img src={`https://member.sicknwell.com${item?.business_image}`} className="mw-100" />
                               </div>
                             </td>
                             <td className="text-capitalize">

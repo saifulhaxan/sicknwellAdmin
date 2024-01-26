@@ -76,7 +76,7 @@ export const EditProvider = () => {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
-        'Authorization': `Bearer ${LogoutData}`
+        'Authorization': `Token ${LogoutData}`
       },
       body: formDataMethod // Use the FormData object as the request body
     })
@@ -122,7 +122,18 @@ export const EditProvider = () => {
     GetUserDetail()
   }, []);
 
+  const handleChangeFile = (e) => {
+    const file = e.target.files[0];
 
+    // Check if a file is selected before updating the state
+    if (file) {
+      setFormData(prevState => ({
+        ...prevState,
+        business_image: file
+      }));
+    }
+    console.log(formData)
+  };
 
 
   return (
@@ -157,7 +168,7 @@ export const EditProvider = () => {
                           labelClass='mainLabel'
                           inputClass='mainInput'
                           name="logo"
-                          onChange={handleChange}
+                          onChange={handleChangeFile}
                         />
                       </div>
                       <div className="col-md-6 col-xl-3 mb-4">

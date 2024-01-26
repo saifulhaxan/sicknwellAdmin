@@ -72,3 +72,7 @@
 .paginationBar ul li button:hover {
     background-color: var(--grayColor);
 }
+
+.paginationBar .active button {
+    background-color: #273993;
+}

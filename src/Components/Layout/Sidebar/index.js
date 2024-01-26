@@ -59,14 +59,14 @@ export const Sidebar = (props) => {
           </Link>
         </li>
 
-        <li className="sidebar-li">
+        {/* <li className="sidebar-li">
           <Link className={`sideLink ${location.pathname.includes('/#') ? 'active' : ''}`} to="/#">
             <span className="sideIcon">
               <FontAwesomeIcon icon={faMoneyBill} />
             </span>
             <span className="sideLinkText">Subscription Management</span>
           </Link>
-        </li>
+        </li> */}
 
         <li className="sidebar-li">
           <Link className={`sideLink ${location.pathname.includes('/provider-management') ? 'active' : ''}`} to="/provider-management">

@@ -95,7 +95,7 @@ const ProviderDetails = () => {
                   <div className="row align-items-center">
                     <div className="col-xl-3 col-md-3 mb-3">
                       <div className="businessLogo">
-                        <img src={`https://member.sicknwell.com/` + profileData?.business_image} className="mw-100" />
+                        <img src={`https://member.sicknwell.com${profileData?.business_image}`} className="mw-100" />
                       </div>
                     </div>
                     <div className="col-md-9">

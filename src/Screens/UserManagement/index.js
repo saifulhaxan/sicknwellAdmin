@@ -62,10 +62,12 @@ export const UserManagement = () => {
   }
 
   const filterData = data.filter(item =>
-  (
-    (item?.first_name.toLowerCase().includes(inputValue.toLowerCase()))
-  )
+    (
+      item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) || 
+      item?.email.toLowerCase().includes(inputValue.toLowerCase())
+    )
   );
+  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
@@ -207,7 +209,7 @@ export const UserManagement = () => {
                           setItemsPerPage(e.target.value);
                         }}
                       />
-                      <SelectBox
+                      {/* <SelectBox
                         selectClass="mainInput"
                         name="filter"
                         label="Sort By Status:"
@@ -217,8 +219,8 @@ export const UserManagement = () => {
                         onChange={(e) => {
                           setSelectedStatus(e.target.value);
                         }}
-                      />
-                      <CustomInput type="text" placeholder="Search by Number, Name..." value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      /> */}
+                      <CustomInput type="text" placeholder="Search by First Name OR Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                     </div>
                   </div>
                 </div>
