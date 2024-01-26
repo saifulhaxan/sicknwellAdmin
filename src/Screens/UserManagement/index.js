@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faEye, faEdit, faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faEye, faEdit, faTimes, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import CustomTable from "./../../Components/CustomTable";
@@ -92,6 +92,33 @@ export const UserManagement = () => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // console.log(data)
         setData(data);
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        console.log(error)
+      })
+  }
+
+  const UserDelete = (userID) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}api/v1/users/${userID}/`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+      }
+    )
+
+      .then(response =>
+        response.json()
+      )
+      .then((data) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // // console.log(data)
+        // setData(data);
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -254,6 +281,7 @@ export const UserManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/user-management/user-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
+                                  <button type="button" className="border-0 tableAction" onClick={UserDelete(item?.id)}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
