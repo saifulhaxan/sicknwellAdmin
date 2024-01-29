@@ -117,7 +117,8 @@ export const UserManagement = () => {
       )
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
-        // // console.log(data)
+        UserListing();
+        console.log(data)
         // setData(data);
       })
       .catch((error) => {
