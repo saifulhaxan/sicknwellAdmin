@@ -281,7 +281,7 @@ export const UserManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/user-management/user-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
-                                  <button type="button" className="border-0 tableAction" onClick={UserDelete(item?.id)}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
+                                  <button type="button" className="border-0 tableAction" onClick={()=>{UserDelete(item?.id)}}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
