@@ -15,7 +15,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faEye, faEdit, faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faEye, faEdit, faTimes, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import CustomTable from "./../../Components/CustomTable";
@@ -97,6 +97,51 @@ export const ProviderManagement = () => {
       })
   }
 
+  const UserDelete = (userID) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+  
+    fetch(`${BASE_URL}api/v1/provider-directories/${userID}/`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${LogoutData}`
+      },
+    })
+    .then((response) => {
+      if (!response.ok) {
+        // Check if the response contains JSON data
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          // Parse the JSON error response
+          return response.json().then((errorData) => {
+            throw new Error(`Error: ${errorData.detail || errorData.message}`);
+          });
+        } else {
+          // If not JSON, throw a generic error
+          throw new Error('Non-JSON error response');
+        }
+      }
+  
+      // If successful, proceed with further actions
+      return response.json();
+    })
+    .then((data) => {
+      document.querySelector('.loaderBox').classList.add("d-none");
+      showModal(true);
+      setTimeout(() => {
+        showModal(false);
+      }, 1000);
+      UserListing();
+      console.log(data);
+    })
+    .catch((error) => {
+      document.querySelector('.loaderBox').classList.add("d-none");
+      console.log(error.message || 'Unexpected error occurred');
+    });
+  }
+  
+  
 
   // currentItems = currentItems.filter((item) => {
   //   console.log(item.status)
@@ -254,6 +299,8 @@ export const ProviderManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/provider-management/provider-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/provider-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
+                                  <button type="button" className="border-0 tableAction" onClick={()=>{UserDelete(item?.id)}}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
+                                
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -274,11 +321,11 @@ export const ProviderManagement = () => {
             </div>
           </div>
 
-          <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' >Hello World</CustomModal>
+          {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' >Hello World</CustomModal>
           <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
 
-          <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={ActiveMale} heading='Are you sure you want to mark this user as Active?' />
-          <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Marked as Active' />
+          <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={ActiveMale} heading='Are you sure you want to mark this user as Active?' /> */}
+          <CustomModal show={showModal} close={() => { setShowModal(false) }} success heading='Provider Removed Successfully!' />
 
 
 

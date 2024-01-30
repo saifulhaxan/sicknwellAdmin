@@ -118,6 +118,8 @@ export const EditProvider = () => {
       })
   }
 
+  
+
   useEffect(() => {
     GetUserDetail()
   }, []);
