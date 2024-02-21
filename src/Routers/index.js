@@ -28,14 +28,9 @@ import { ProviderManagement } from "../Screens/ProviderManagement";
 import ProviderDetails from "../Screens/ProviderManagement/ProviderDetails";
 import { EditProvider } from "../Screens/ProviderManagement/editProvider";
 import { AddProvider } from "../Screens/ProviderManagement/AddProvider";
-
-// import { IssueAdministration } from "../Screens/IssueAdministration";
-// import { IssueDetail } from "../Screens/IssueAdministration/IssueDetails";
-// import { EditSafeDetails } from "../Screens/safeAdministartion/editDetails";
-
-// import { SafeManagement } from "../Screens/safeAdministartion/";
-// import { SafeDetails } from "../Screens/safeAdministartion/safeDetails";
-// import { AddSafe } from "../Screens/safeAdministartion/addSafe";
+// import CompanyManagement from '../Screens/CompanyManagement'
+import { CompanyManagement } from "../Screens/CompanyManagement";
+import {CompanyDetails} from "../Screens/CompanyManagement/CompanyDetails"
 
 import Profile from "../Screens/Profile";
 import EditProfile from "../Screens/Profile/EditProfile";
@@ -67,6 +62,8 @@ export default function AdminRouter() {
         <Route path="/provider-management/edit-detail/:id" element={<ProtectedRoutes Components={EditProvider} />} />
         <Route path="/add-provider" element={<ProtectedRoutes Components={AddProvider} />} />
 
+        <Route path="/company-management" element={<ProtectedRoutes Components={CompanyManagement} />} />
+        <Route path="/company-management/company-details/:id" element={<ProtectedRoutes Components={CompanyDetails} />} />
         {/* <Route path="/issue-administration" element={<ProtectedRoutes Components={IssueAdministration} />} />
         <Route path="/issue-administration/issue-detail/:id" element={<ProtectedRoutes Components={IssueDetail} />} />
 
