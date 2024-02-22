@@ -37,28 +37,20 @@ export const CompanyDetails = () => {
   const [profileData, setProfileData] = useState({});
   const [memberData, setMemberData] = useState();
   const [formData, setFormData] = useState({
-      product_name: 'COMPANY PLAN',
-      product_price: '',
-      product_status: 'Active',
-      product_description: profileData?.company_name,
-      interval: 'month',
-      product_type: 'company',
-      company_id: profileData?.id
+    product_name: 'COMPANY PLAN',
+    product_price: '',
+    product_status: 'Active',
+    product_description: profileData?.company_name,
+    interval: 'month',
+    product_type: 'company',
+    company_id: profileData?.id
   });
 
   const [showModal, setShowModal] = useState(false);
-  const [showModal2, setShowModal2] = useState(false);
-  const [showModal3, setShowModal3] = useState(false);
-  const [showModal4, setShowModal4] = useState(false);
+  const [showEdit, setShowEdit] = useState(false);
 
-  const inActive = () => {
-    setShowModal(false)
-    setShowModal2(true)
-  }
-  const Active = () => {
-    setShowModal3(false)
-    setShowModal4(true)
-  }
+
+
 
   // primay user detial 
 
@@ -122,7 +114,7 @@ export const CompanyDetails = () => {
 
   const handleChange = (e) => {
     setFormData({
-      ...formData, 
+      ...formData,
       product_price: parseInt(e.target.value),
       product_description: profileData?.company_name,
       company_id: profileData?.id
@@ -160,6 +152,35 @@ export const CompanyDetails = () => {
         console.log(error);
       })
   }
+
+  const handleEditPrice = (e) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}company_price_update/${profileData?.id}/${formData?.product_price}/`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+      }
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        setProfileData(data)
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        setShowEdit(false);
+        console.log(data)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        console.log(error);
+      })
+  }
   console.log(memberData)
 
   useEffect(() => {
@@ -180,7 +201,33 @@ export const CompanyDetails = () => {
               </h2>
             </div>
             <div className="col-md-6 d-flex justify-content-end">
-                <button type="button" onClick={()=>{setShowModal(true)}} className="btn border-0"><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>Add Package Price</button>
+              {/* {
+                profileData?.subscription_status && profileData?.allowed_employees ? (
+                  <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Edit Package Price
+                  </button>
+                ) : (
+
+                  <button type="button" onClick={() => { setShowModal(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Add Package Price
+                  </button>
+                )
+              } */}
+
+
+              <button type="button" onClick={() => { setShowModal(true) }} className="btn border-0">
+                <FontAwesomeIcon icon={faEdit} />
+                Add Package Price
+              </button>
+              <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                <FontAwesomeIcon icon={faEdit} />
+                Edit Package Price
+              </button>
+
+
+
             </div>
           </div>
           <div className="row mb-3">
@@ -243,7 +290,7 @@ export const CompanyDetails = () => {
               </div>
 
               <div className="row">
-              <div className="col-md-12 my-4">
+                <div className="col-md-12 my-4">
                   <h2 className="mainTitle">
                     Subscription Details
                   </h2>
@@ -368,23 +415,40 @@ export const CompanyDetails = () => {
         </div>
 
         <CustomModal show={showModal} close={() => { setShowModal(false) }} >
-            <CustomInput
-              label="Enter Package Price"
-              type="number"
-              placeholder="Enter Package Price"
-              required
-              name="product_price"
-              labelClass='mainLabel'
-              inputClass='mainInput'
-              onChange={handleChange}
+          <CustomInput
+            label="Enter Package Price"
+            type="number"
+            placeholder="Enter Package Price"
+            required
+            name="product_price"
+            labelClass='mainLabel'
+            inputClass='mainInput'
+            onChange={handleChange}
 
 
-            />
+          />
 
-            <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleSubmit} />
-          </CustomModal>
+          <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleSubmit} />
+        </CustomModal>
 
-    
+        <CustomModal show={showEdit} close={() => { setShowEdit(false) }} >
+          <CustomInput
+            label="Update Package Price"
+            type="number"
+            placeholder="Update Package Price"
+            required
+            name="product_price"
+            labelClass='mainLabel'
+            inputClass='mainInput'
+            onChange={handleChange}
+
+
+          />
+
+          <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleEditPrice} />
+        </CustomModal>
+
+
       </DashboardLayout>
     </>
   );
