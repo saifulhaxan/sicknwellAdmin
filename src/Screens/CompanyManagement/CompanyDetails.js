@@ -22,6 +22,10 @@ import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
+import CustomInput from "../../Components/CustomInput";
+import CustomButton from "../../Components/CustomButton";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 export const CompanyDetails = () => {
 
@@ -32,6 +36,15 @@ export const CompanyDetails = () => {
 
   const [profileData, setProfileData] = useState({});
   const [memberData, setMemberData] = useState();
+  const [formData, setFormData] = useState({
+      product_name: 'COMPANY PLAN',
+      product_price: '',
+      product_status: 'Active',
+      product_description: profileData?.company_name,
+      interval: 'month',
+      product_type: 'company',
+      company_id: profileData?.id
+  });
 
   const [showModal, setShowModal] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
@@ -51,7 +64,6 @@ export const CompanyDetails = () => {
 
   const PrimaryUserDetai = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    document.querySelector('body').classList.add('loaderShow');
     fetch(`${BASE_URL}api/v1/users/${id}/company_details/`,
       {
         method: 'GET',
@@ -108,6 +120,46 @@ export const CompanyDetails = () => {
       })
   }
 
+  const handleChange = (e) => {
+    setFormData({
+      ...formData, 
+      product_price: parseInt(e.target.value),
+      product_description: profileData?.company_name,
+      company_id: profileData?.id
+    });
+    console.log(formData)
+  }
+
+
+  const handleSubmit = (e) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}company_product_admin/`,
+      {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+        body: JSON.stringify(formData)
+      }
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        setProfileData(data)
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        setShowModal(false);
+        console.log(data)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        console.log(error);
+      })
+  }
   console.log(memberData)
 
   useEffect(() => {
@@ -121,11 +173,14 @@ export const CompanyDetails = () => {
       <DashboardLayout>
         <div className="dashCard mb-4">
           <div className="row mb-3">
-            <div className="col-12 mb-2">
+            <div className="col-6 mb-2">
               <h2 className="mainTitle">
                 <BackButton />
                 Company Details
               </h2>
+            </div>
+            <div className="col-md-6 d-flex justify-content-end">
+                <button type="button" onClick={()=>{setShowModal(true)}} className="btn border-0"><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>Add Package Price</button>
             </div>
           </div>
           <div className="row mb-3">
@@ -140,7 +195,7 @@ export const CompanyDetails = () => {
                   {/* <button onClick={() => {
                     profileData.status ? setShowModal(true) : setShowModal3(true)
                   }} className="notButton primaryColor fw-bold text-decoration-underline">Mark as {profileData.status ? 'Inactive' : 'Active'}</button> */}
-                  <span className={`statusBadge ${profileData?.is_active == true ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{profileData.is_active == true ? 'Active' : 'Inactive'}</span>
+                  {/* <span className={`statusBadge ${profileData?.is_active == true ? 'statusBadgeActive' : 'statusBadgeInactive'}`}>{profileData.is_active == true ? 'Active' : 'Inactive'}</span> */}
                 </div>
               </div>
               <div className="row">
@@ -186,6 +241,38 @@ export const CompanyDetails = () => {
                   </div>
                 </div>
               </div>
+
+              <div className="row">
+              <div className="col-md-12 my-4">
+                  <h2 className="mainTitle">
+                    Subscription Details
+                  </h2>
+                </div>
+                <div className="col-lg-12">
+                  <div className="row">
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Subscription Status</h4>
+                      <p className="secondaryText text-capitalize">{profileData?.subscription_status}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Amount Per Employee</h4>
+                      <p className="secondaryText">{`$ ${profileData?.amount_per_employee}`}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Total Subscription Amount</h4>
+                      <p className="secondaryText">{`$ ${profileData?.subscription_amount}`}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Subscription Type</h4>
+                      <p className="secondaryText">{'Monthly'}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Allowed Employee</h4>
+                      <p className="secondaryText">{profileData?.allowed_employees}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               {/* fiamily member  */}
 
 
@@ -200,7 +287,7 @@ export const CompanyDetails = () => {
                     <div className="col-md-12 tabSection">
                       <Tab.Container id="left-tabs-example" defaultActiveKey="Member 1">
                         <Row>
-                          <Col sm={3}>
+                          <Col sm={2}>
                             <Nav variant="pills" className="flex-column">
                               {
                                 profileData?.employees && profileData?.employees?.map((item, index) => (
@@ -212,7 +299,7 @@ export const CompanyDetails = () => {
 
                             </Nav>
                           </Col>
-                          <Col sm={9}>
+                          <Col sm={10}>
                             <Tab.Content>
                               {
                                 profileData?.employees && profileData?.employees?.map((item, index) => (
@@ -280,11 +367,24 @@ export const CompanyDetails = () => {
           </div>
         </div>
 
-        <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' />
-        <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
+        <CustomModal show={showModal} close={() => { setShowModal(false) }} >
+            <CustomInput
+              label="Enter Package Price"
+              type="number"
+              placeholder="Enter Package Price"
+              required
+              name="product_price"
+              labelClass='mainLabel'
+              inputClass='mainInput'
+              onChange={handleChange}
 
-        <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={Active} heading='Are you sure you want to mark this user as Active?' />
-        <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Marked as Active' />
+
+            />
+
+            <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleSubmit} />
+          </CustomModal>
+
+    
       </DashboardLayout>
     </>
   );

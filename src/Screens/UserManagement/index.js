@@ -127,6 +127,22 @@ export const UserManagement = () => {
       })
   }
 
+  const dateFormat = (dateFor) => {
+    const datetimeString = dateFor;
+    const date = new Date(datetimeString);
+    
+    // Extracting date components
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(date.getDate()).padStart(2, '0');
+    
+    // Creating the date string in the format "YYYY-MM-DD"
+    const dateString = `${year}-${month}-${day}`;
+    
+    return dateString; // Output: "2024-01-30"
+  }
+
+
 
   // currentItems = currentItems.filter((item) => {
   //   console.log(item.status)
@@ -160,7 +176,10 @@ export const UserManagement = () => {
       key: "email",
       title: "Email Address",
     },
-
+    {
+      key: "cname",
+      title: "Company Name",
+    },
     {
       key: "number",
       title: "Phone",
@@ -172,6 +191,10 @@ export const UserManagement = () => {
     {
       key: "dob",
       title: "DOB",
+    },
+    {
+      key: "co",
+      title: "Created On",
     },
     {
       key: "actions",
@@ -269,10 +292,12 @@ export const UserManagement = () => {
                               {item?.last_name}
                             </td>
                             <td>{item?.email}</td>
+                            <td>{item?.company_name === null ? 'Not a company user' : item?.company_name}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Admin'}</td>
+                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
+                            <td>{dateFormat(item?.date_joined)}</td>
                             {/* <td className={item?.status == 1 ? 'greenColor' : "redColor"}>{item?.status == 1 ? 'Active' : "Inactive"}</td> */}
                             <td>
                               <Dropdown className="tableDropdown">

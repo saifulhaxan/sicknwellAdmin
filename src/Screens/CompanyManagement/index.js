@@ -140,6 +140,10 @@ export const CompanyManagement = () => {
       title: "Phone",
     },
     {
+      key: "mebershop",
+      title: "Membership Purchased",
+    },
+    {
       key: "member",
       title: "Employee",
     },
@@ -248,6 +252,7 @@ export const CompanyManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
+                            <td>{item?.membership_purchased ? 'Yes' : 'No'}</td>
                             <td>{`${item?.number_of_employees} Employee`}</td>
 
                             {/* <td>{item?.created_at}</td> */}
