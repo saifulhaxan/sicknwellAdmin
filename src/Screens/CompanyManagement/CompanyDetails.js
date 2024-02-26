@@ -48,6 +48,7 @@ export const CompanyDetails = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  const [showEditSubscription, setShowEditSubscription] = useState(false);
 
 
 
@@ -181,6 +182,36 @@ export const CompanyDetails = () => {
         console.log(error);
       })
   }
+
+  const handleEditSubscription = (e) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}company_product_admin/`,
+      {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+        body: JSON.stringify(formData)
+      }
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        setProfileData(data)
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        setShowModal(false);
+        console.log(data)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        console.log(error);
+      })
+  }
   console.log(memberData)
 
   useEffect(() => {
@@ -216,15 +247,21 @@ export const CompanyDetails = () => {
                 )
               } */}
 
+              {
+                profileData?.stripe_product_id == '' ? (
+                  <button type="button" onClick={() => { setShowModal(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Add Package Price
+                  </button>
+                ) : (
+                  <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Edit Package Price
+                  </button>
+                )
+              }
 
-              <button type="button" onClick={() => { setShowModal(true) }} className="btn border-0">
-                <FontAwesomeIcon icon={faEdit} />
-                Add Package Price
-              </button>
-              <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
-                <FontAwesomeIcon icon={faEdit} />
-                Edit Package Price
-              </button>
+
 
 
 
@@ -289,11 +326,17 @@ export const CompanyDetails = () => {
                 </div>
               </div>
 
-              <div className="row">
-                <div className="col-md-12 my-4">
+              <div className="row align-items-center justify-content-between">
+                <div className="col-md-7 my-4">
                   <h2 className="mainTitle">
                     Subscription Details
                   </h2>
+                </div>
+                <div className="col-md-5 text-right">
+                   {/* <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Edit Subscription Price Per Employee
+                  </button> */}
                 </div>
                 <div className="col-lg-12">
                   <div className="row">
@@ -433,9 +476,9 @@ export const CompanyDetails = () => {
 
         <CustomModal show={showEdit} close={() => { setShowEdit(false) }} >
           <CustomInput
-            label="Update Package Price"
+            label="Update Subscription Price"
             type="number"
-            placeholder="Update Package Price"
+            placeholder="Update Subscription Price"
             required
             name="product_price"
             labelClass='mainLabel'
@@ -445,7 +488,24 @@ export const CompanyDetails = () => {
 
           />
 
-          <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleEditPrice} />
+          <CustomButton variant='primaryButton' text='Update Price' type='button' onClick={handleEditPrice} />
+        </CustomModal>
+
+        <CustomModal show={showEditSubscription} close={() => { setShowEditSubscription(false) }} >
+          <CustomInput
+            label="Update Package Price"
+            type="number"
+            placeholder="Update Package Price"
+            required
+            name="new_price"
+            labelClass='mainLabel'
+            inputClass='mainInput'
+            onChange={handleChange}
+
+
+          />
+
+          <CustomButton variant='primaryButton' text='Update Price' type='button' onClick={handleEditSubscription} />
         </CustomModal>
 
 
