@@ -252,7 +252,7 @@ export const CompanyManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.membership_purchased ? 'Yes' : 'No'}</td>
+                            <td>{ `${item?.allowed_members} Membership`}</td>
                             <td>{`${item?.number_of_employees} Employee`}</td>
 
                             {/* <td>{item?.created_at}</td> */}
