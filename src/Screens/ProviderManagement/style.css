@@ -4,6 +4,9 @@
     width: 60px;
 }
 
+.textLeft .customTable {
+    text-align: left;
+}
 
 @media screen and (max-width: 1200px) and (min-width: 768px) {
  
