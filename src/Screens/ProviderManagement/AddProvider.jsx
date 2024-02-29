@@ -180,7 +180,7 @@ export const AddProvider = () => {
                       <div className='col-md-12'>
                         <CustomButton
                           variant='primaryButton'
-                          text='Update'
+                          text='Submit'
                           type='submit'
                         />
                       </div>

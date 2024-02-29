@@ -20,7 +20,7 @@ import CustomInput from "../../Components/CustomInput"
 import CustomTable from "../../Components/CustomTable"
 import { BASE_URL } from "../../Api/apiConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Dropdown } from "react-bootstrap";
 
 const ProviderDetails = () => {
@@ -34,14 +34,15 @@ const ProviderDetails = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [addProduct, setAddProduct] = useState(false);
-  const [productData, setProductData] = useState();
+  const [editForm, setEditForm] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [formData, setFormData] = useState({
-    provider: id,
+    provider_directory: id,
     description: 'Dental'
   });
 
 
-  useEffect(() => {
+  const getProviderDetail = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
 
     fetch(`${BASE_URL}api/v1/provider-directories/${id}/`,
@@ -66,6 +67,10 @@ const ProviderDetails = () => {
         document.querySelector('.loaderBox').classList.add("d-none");
         console.log(error);
       })
+  }
+
+  useEffect(() => {
+    getProviderDetail();
   }, [id]);
 
   const handleSubmit = event => {
@@ -99,13 +104,26 @@ const ProviderDetails = () => {
         setTimeout(() => {
           setAddProduct(false);
         }, 1000);
-        
-        getProductList()
+        getProviderDetail();
 
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(error);
       })
   }
 
-  const getProductList = event => {
+  const editProduct = (proID, proName, proPrice) => {
+    setFormData({
+      ...formData,
+      name: proName,
+      price: proPrice,
+      id: proID
+    })
+  }
+
+  const editSubmit = (productID) => {
+    // event.preventDefault()
     document.querySelector('.loaderBox').classList.remove('d-none')
 
     // Create a new FormData object
@@ -115,12 +133,13 @@ const ProviderDetails = () => {
     }
 
     // Make the fetch request
-    fetch(`${BASE_URL}api/v1/provider_service/`, {
-      method: 'GET',
+    fetch(`${BASE_URL}api/v1/provider_service/${productID}/`, {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Authorization': `Token ${LogoutData}`
       },
+      body: formDataMethod // Use the FormData object as the request body
     })
       .then(response => {
         document.querySelector('.loaderBox').classList.add('d-none')
@@ -129,15 +148,66 @@ const ProviderDetails = () => {
       .then(data => {
         document.querySelector('.loaderBox').classList.add('d-none')
         console.log(data);
-        setProductData(data)
+        setEditForm(false);
+        setEditModal(true);
+        setTimeout(() => {
+          setEditModal(false);
+        }, 1500);
+
+        getProviderDetail();
 
 
       })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(error);
+      })
   }
 
-  useEffect(() => {
-    getProductList()
-  }, [])
+  const deleteProduct = (productID) => {
+    // event.preventDefault()
+    document.querySelector('.loaderBox').classList.remove('d-none')
+
+    // Create a new FormData object
+    const formDataMethod = new FormData()
+    for (const key in formData) {
+      formDataMethod.append(key, formData[key])
+    }
+
+    // Make the fetch request
+    fetch(`${BASE_URL}api/v1/provider_service/${productID}/`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Token ${LogoutData}`
+      },
+      body: formDataMethod // Use the FormData object as the request body
+    })
+      .then(response => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        return response.json()
+      })
+      .then(data => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(data);
+        // setEditForm(false);
+        // setEditModal(true);
+        // setTimeout(() => {
+        //   setEditModal(false);
+        // }, 1500);
+
+        getProviderDetail();
+
+
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(error);
+      })
+  }
+
+
+
 
 
   const productHeader = [
@@ -210,7 +280,7 @@ const ProviderDetails = () => {
                   <CustomButton variant='primaryButton' text='Add Product' type='button' onClick={() => { setShowModal(true) }} />
                 </div>
               </div>
-              {productData && productData.length > 0 ? (
+              {profileData?.provider_services_directory && profileData?.provider_services_directory.length > 0 ? (
                 <div className="row mb-3 textLeft">
                   <div className="col=md-12">
                     <h2 className="mainTitle">
@@ -223,7 +293,7 @@ const ProviderDetails = () => {
 
                     >
                       <tbody>
-                        {productData?.map((item, index) => (
+                        {profileData?.provider_services_directory?.map((item, index) => (
                           <tr key={index}>
                             <td className="text-capitalize">
                               {item.name}
@@ -238,9 +308,12 @@ const ProviderDetails = () => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <button onClick={() => {
-                                    // brandID(item.id)
-                                    // setUserFrom(true)
+                                    editProduct(item.id, item.name, item.price)
+                                    setEditForm(true)
                                   }} className="tableAction"><FontAwesomeIcon icon={faPencil} className="tableActionIcon" />Edit</button>
+                                   <button onClick={() => {
+                                    deleteProduct(item.id)
+                                  }} className="tableAction"><FontAwesomeIcon icon={faTrash} className="tableActionIcon" />Delete</button>
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -289,7 +362,44 @@ const ProviderDetails = () => {
           <CustomButton variant='primaryButton' text='Add' type='button' onClick={handleSubmit} />
         </CustomModal>
 
+
+        <CustomModal show={editForm} close={() => { setEditForm(false) }} >
+          <CustomInput
+            label="Edit Product Name"
+            type="text"
+            placeholder="Edit Product Name"
+            required
+            name="name"
+            labelClass='mainLabel'
+            value={formData?.name}
+            inputClass='mainInput'
+            onChange={(event) => {
+              setFormData({ ...formData, name: event.target.value });
+              console.log(formData);
+            }}
+
+          />
+
+          <CustomInput
+            label="Edit Product Price"
+            type="text"
+            placeholder="Edit Product Price"
+            required
+            name="price"
+            labelClass='mainLabel'
+            value={formData?.price}
+            inputClass='mainInput'
+            onChange={(event) => {
+              setFormData({ ...formData, price: event.target.value });
+              console.log(formData);
+            }}
+
+          />
+          <CustomButton variant='primaryButton' text='Update' type='button' onClick={() => { editSubmit(formData?.id) }} />
+        </CustomModal>
+
         <CustomModal show={addProduct} close={() => { setAddProduct(false) }} success heading='Product Added Successfully!' />
+        <CustomModal show={editModal} close={() => { setEditModal(false) }} success heading='Product Update Successfully!' />
         {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' />
         
 
