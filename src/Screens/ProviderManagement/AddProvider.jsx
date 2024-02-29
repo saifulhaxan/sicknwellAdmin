@@ -11,7 +11,7 @@
  * - Modification    :
  **/
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { DashboardLayout } from '../../Components/Layout/DashboardLayout'
 import BackButton from '../../Components/BackButton'
 import CustomModal from '../../Components/CustomModal'
@@ -20,7 +20,8 @@ import { SelectBox } from '../../Components/CustomSelect'
 import CustomButton from '../../Components/CustomButton'
 import { BASE_URL } from '../../Api/apiConfig'
 export const AddProvider = () => {
-  const { id } = useParams()
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({})
 
@@ -83,7 +84,8 @@ export const AddProvider = () => {
       })
       .then(data => {
         document.querySelector('.loaderBox').classList.add('d-none')
-        console.log(data)
+        console.log(data);
+        navigate('/provider-management');
       })
   }
 

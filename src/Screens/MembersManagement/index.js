@@ -241,7 +241,7 @@ export const MembersManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Admin'}</td>
+                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
 
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
