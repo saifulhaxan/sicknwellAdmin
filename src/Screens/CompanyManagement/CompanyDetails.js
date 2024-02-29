@@ -256,7 +256,7 @@ export const CompanyDetails = () => {
                 ) : (
                   <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
                     <FontAwesomeIcon icon={faEdit} />
-                    Edit Package Price
+                    Change Package Price
                   </button>
                 )
               }

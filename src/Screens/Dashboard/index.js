@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 01/03/2024 - 01:25:26
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 01/03/2024
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState, useEffect } from "react";
 
 import { DashboardLayout } from "./../../Components/Layout/DashboardLayout";
@@ -12,6 +24,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./style.css";
+import { BASE_URL } from "../../Api/apiConfig.js";
 
 export const Dashboard = () => {
   const [statistics, setStatistics] = useState([]);
@@ -24,13 +37,13 @@ export const Dashboard = () => {
     document.title = 'SicknWell | Dashboard';
     const LogoutData = localStorage.getItem('login');
 
-    fetch('https://custom.mystagingserver.site/parcel_safe_app/public/api/admin/dashboarddata',
+    fetch(`${BASE_URL}/get_stats/`,
       {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LogoutData}`
+          'Authorization': `Token ${LogoutData}`
         },
       }
     )
@@ -73,82 +86,210 @@ export const Dashboard = () => {
             <div className="col-12">
               <div className="dashCard">
                 <div className="row">
-                    <div className="col-xl-4 col-md-6 stats">
-                      <div className="statsCard">
-                        <div className="statsContent">
-                          <div className="statsData">
-                            {/* <h3 className="statsNumber">{statistics.data?.total_user}</h3> */}
-                            <h3 className="statsNumber">100</h3>
-                            <p className="statsText">Total Users</p>
-                          </div>
-                        </div>
-                        <div className="statsChange">
-                          <p>
-                              100%
-                              <FontAwesomeIcon
-                                icon={faArrowCircleUp}
-                                className="me-2 redColor"
-                              />
-                            
-                            
-                          </p>
-                          <p>Since last week</p>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_users}</h3>
+                          <p className="statsText">Total Users</p>
                         </div>
                       </div>
-                    </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
 
-                    <div className="col-xl-4 col-md-6 stats">
-                      <div className="statsCard">
-                        <div className="statsContent">
-                          <div className="statsData">
-                            {/* <h3 className="statsNumber">{statistics.data?.issue_pending}</h3> */}
-                            <h3 className="statsNumber">50</h3>
-                            <p className="statsText">Total Providers</p>
-                          </div>
-                        </div>
-                        <div className="statsChange">
-                          <p>
-                              100%
-                              <FontAwesomeIcon
-                                icon={faArrowCircleUp}
-                                className="me-2 redColor"
-                              />
-                            
-                            
-                          </p>
-                          <p>Since last week</p>
-                        </div>
-                      </div>
-                    </div>
 
-                    <div className="col-xl-4 col-md-6 stats">
-                      <div className="statsCard">
-                        <div className="statsContent">
-                          <div className="statsData">
-                            {/* <h3 className="statsNumber">{statistics.data?.total_issues}</h3> */}
-                            <h3 className="statsNumber">80</h3>
-                            <p className="statsText">Total Subsciptions</p>
-                          </div>
-                        </div>
-                        <div className="statsChange">
-                          <p>
-                              100%
-                              <FontAwesomeIcon
-                                icon={faArrowCircleUp}
-                                className="me-2 redColor"
-                              />
-                            
-                            
-                          </p>
-                          <p>Since last week</p>
-                        </div>
+                        </p>
+                        <p>Since last week</p>
                       </div>
                     </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_active_subscriptions}</h3>
+                          <p className="statsText">Active Subsciptions</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_company_plan_users}</h3>
+                          <p className="statsText">Company Plan Users</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_couple_plan_users}</h3>
+                          <p className="statsText">Couple Plan Users</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_employees_users}</h3>
+                          <p className="statsText">Total Employees</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_family_plan_users}</h3>
+                          <p className="statsText">Family Plan Users</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_incomplete_subscriptions}</h3>
+                          <p className="statsText">Incomplete Subsciptions</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_individual_plan_users}</h3>
+                          <p className="statsText">Individual Plan Users</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber">{statistics?.total_subscriptions}</h3>
+                          <p className="statsText">Total Subsciptions</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p>
+                        <p>Since last week</p>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
               </div>
             </div>
           </div>
-          <div className="row mb-3">
+          {/* <div className="row mb-3">
             <div className="col-12">
               <div className="dashCard">
                 <div className="d-flex flex-wrap justify-content-between">
@@ -200,7 +341,7 @@ export const Dashboard = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </DashboardLayout>
     </>
