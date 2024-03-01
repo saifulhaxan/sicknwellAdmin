@@ -3,6 +3,11 @@
     border-right: 2px solid #fff0;
 }
 
+.pdfCover {
+    color: #ec202f;
+    font-size: 40px;
+}
+
 
 @media screen and (max-width: 1200px) and (min-width: 768px) {
     .stats, .stats:not(:last-child) {

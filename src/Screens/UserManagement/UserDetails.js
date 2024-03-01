@@ -16,6 +16,8 @@ import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import BackButton from "../../Components/BackButton";
 import CustomModal from "../../Components/CustomModal";
 import { BASE_URL } from "../../Api/apiConfig";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
 
 const UserManagementDetail = () => {
 
@@ -69,6 +71,37 @@ const UserManagementDetail = () => {
       })
   }, [id]);
 
+  const handleSendEmail = () => {
+    document.querySelector('.loaderBox').classList.remove('d-none')
+
+    // Create a new FormData object
+    const formDataMethod = new FormData()
+     formDataMethod.append('user_id', id);
+    //  formDataMethod.append('member_id', '');
+
+    // Make the fetch request
+    fetch(`${BASE_URL}send_card_atmu/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Token ${LogoutData}`
+      },
+      body: formDataMethod // Use the FormData object as the request body
+    })
+      .then(response => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        return response.json()
+      })
+      .then(data => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(data);
+        setShowModal(true);
+        setTimeout(()=>{
+          setShowModal(false);
+        }, 1500)
+       
+      })
+  }
 
   return (
     <>
@@ -143,6 +176,11 @@ const UserManagementDetail = () => {
                       <h4 className="secondaryLabel">Plan</h4>
                       <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
                     </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Membership Card</h4>
+                      <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${profileData?.card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
+                      <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -150,8 +188,8 @@ const UserManagementDetail = () => {
           </div>
         </div>
 
-        <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' />
-        <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
+      {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' /> */}
+        <CustomModal show={showModal} close={() => { setShowModal(false) }} success heading='PDF sent successfully to User' />
 
         <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={Active} heading='Are you sure you want to mark this user as Active?' />
         <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Marked as Active' />
