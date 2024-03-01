@@ -113,7 +113,7 @@ export const Dashboard = () => {
                       <div className="statsContent">
                         <div className="statsData">
                           <h3 className="statsNumber">{statistics?.total_active_subscriptions}</h3>
-                          <p className="statsText">Active Subsciptions</p>
+                          <p className="statsText">Active Subscriptions</p>
                         </div>
                       </div>
                       <div className="statsChange">
@@ -223,7 +223,7 @@ export const Dashboard = () => {
                       <div className="statsContent">
                         <div className="statsData">
                           <h3 className="statsNumber">{statistics?.total_incomplete_subscriptions}</h3>
-                          <p className="statsText">Incomplete Subsciptions</p>
+                          <p className="statsText">Incomplete Subscriptions</p>
                         </div>
                       </div>
                       <div className="statsChange">
@@ -267,7 +267,7 @@ export const Dashboard = () => {
                       <div className="statsContent">
                         <div className="statsData">
                           <h3 className="statsNumber">{statistics?.total_subscriptions}</h3>
-                          <p className="statsText">Total Subsciptions</p>
+                          <p className="statsText">Total Subscriptions</p>
                         </div>
                       </div>
                       <div className="statsChange">
