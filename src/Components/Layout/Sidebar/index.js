@@ -86,6 +86,15 @@ export const Sidebar = (props) => {
           </Link>
         </li>
 
+        <li className="sidebar-li">
+          <Link className={`sideLink ${location.pathname.includes('/faqs') ? 'active' : ''}`} to="/faqs">
+            <span className="sideIcon">
+              <FontAwesomeIcon icon={faHistory} />
+            </span>
+            <span className="sideLinkText">Faqs Management</span>
+          </Link>
+        </li>
+
       </ul>
     </div>
   );

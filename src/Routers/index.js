@@ -31,6 +31,7 @@ import { AddProvider } from "../Screens/ProviderManagement/AddProvider";
 // import CompanyManagement from '../Screens/CompanyManagement'
 import { CompanyManagement } from "../Screens/CompanyManagement";
 import {CompanyDetails} from "../Screens/CompanyManagement/CompanyDetails"
+import { FaqsListing } from "../Screens/Faqs";
 
 import Profile from "../Screens/Profile";
 import EditProfile from "../Screens/Profile/EditProfile";
@@ -61,6 +62,7 @@ export default function AdminRouter() {
         <Route path="/provider-management/provider-detail/:id" element={<ProtectedRoutes Components={ProviderDetails} />} />
         <Route path="/provider-management/edit-detail/:id" element={<ProtectedRoutes Components={EditProvider} />} />
         <Route path="/add-provider" element={<ProtectedRoutes Components={AddProvider} />} />
+        <Route path="/faqs" element={<ProtectedRoutes Components={FaqsListing} />} />
 
         <Route path="/company-management" element={<ProtectedRoutes Components={CompanyManagement} />} />
         <Route path="/company-management/company-details/:id" element={<ProtectedRoutes Components={CompanyDetails} />} />
