@@ -292,7 +292,7 @@ export const UserManagement = () => {
                               {item?.last_name}
                             </td>
                             <td>{item?.email}</td>
-                            <td>{item?.company_name === null ? 'Not a company user' : item?.company_name}</td>
+                            <td>{item?.company_name == 'null' || item?.company_name === null ? 'N/A' : item?.company_name}</td>
                             <td>{item?.phone_number}</td>
                             <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
                             {/* <td>{item?.created_at}</td> */}

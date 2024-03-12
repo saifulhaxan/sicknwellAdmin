@@ -239,7 +239,7 @@ export const FaqsListing = () => {
                                         <tbody>
                                             {profileData && profileData?.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td className="text-capitalize">
+                                                    <td className="text-capitalize w-100">
                                                         {item?.question}
                                                     </td>
                                                     <td>
