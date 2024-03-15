@@ -292,7 +292,7 @@ export const FaqsListing = () => {
                                         <tbody>
                                             {profileData && profileData?.map((item, index) => (
                                                 <tr key={index}>
-                                                    <td><span onClick={() => { editSequence(item?.sequence) }}>{item?.sequence}</span></td>
+                                                    <td><span className="btnSequence" onClick={() => { editSequence(item?.sequence) }}>{item?.sequence}</span></td>
 
                                                     <td className="text-capitalize w-100">
                                                         {item?.question}
