@@ -36,6 +36,7 @@ export const FaqsListing = () => {
     const [addProduct, setAddProduct] = useState(false);
     const [editForm, setEditForm] = useState(false);
     const [editModal, setEditModal] = useState(false);
+    const [showSequence, setShowSequence] = useState(false);
     const [formData, setFormData] = useState({
     });
 
@@ -121,6 +122,59 @@ export const FaqsListing = () => {
         })
     }
 
+    const editSequence = (sequenceID) => {
+        setShowSequence(true)
+        setFormData({
+            ...formData,
+            seq1_id: sequenceID
+        })
+    }
+
+
+    
+    const updateSwaping = (event) => {
+        event.preventDefault();
+        document.querySelector('.loaderBox').classList.remove('d-none')
+
+        // Create a new FormData object
+        const formDataMethod = new FormData()
+        for (const key in formData) {
+            formDataMethod.append(key, formData[key])
+        }
+
+        // Make the fetch request
+        fetch(`${BASE_URL}api/v1/faq/switch_sequence/`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Authorization': `Token ${LogoutData}`
+            },
+            body: formDataMethod // Use the FormData object as the request body
+        })
+            .then(response => {
+                document.querySelector('.loaderBox').classList.add('d-none')
+                return response.json()
+            })
+            .then(data => {
+                document.querySelector('.loaderBox').classList.add('d-none')
+                console.log(data);
+                setShowSequence(false);
+                setEditModal(true);
+                setTimeout(() => {
+                    setEditModal(false);
+                }, 1500);
+
+                getListing();
+
+
+            })
+            .catch((error) => {
+                document.querySelector('.loaderBox').classList.add('d-none')
+                console.log(error);
+            })
+    }
+
+
     const editSubmit = (productID) => {
         // event.preventDefault()
         document.querySelector('.loaderBox').classList.remove('d-none')
@@ -164,45 +218,44 @@ export const FaqsListing = () => {
     }
 
     const deleteProduct = (productID) => {
-        // event.preventDefault()
-        document.querySelector('.loaderBox').classList.remove('d-none')
-
-        // Create a new FormData object
-        const formDataMethod = new FormData()
-        for (const key in formData) {
-            formDataMethod.append(key, formData[key])
-        }
+        // event.preventDefault();
+        document.querySelector('.loaderBox').classList.remove('d-none');
 
         // Make the fetch request
         fetch(`${BASE_URL}api/v1/faq/${productID}/`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Token ${LogoutData}`
-            },
-            body: formDataMethod // Use the FormData object as the request body
+            }
         })
             .then((response) => {
-                document.querySelector('.loaderBox').classList.add('d-none')
-                return response.json()
+                document.querySelector('.loaderBox').classList.add('d-none');
+                if (!response.ok) {
+                    throw new Error('Failed to delete product');
+                }
+                return response.json();
             })
             .then((data) => {
-                document.querySelector('.loaderBox').classList.add('d-none')
                 console.log(data);
+                document.querySelector('.loaderBox').classList.add('d-none');
                 getListing();
-
-
             })
             .catch((error) => {
-                document.querySelector('.loaderBox').classList.add('d-none')
-                console.log(error);
-            })
-    }
+                document.querySelector('.loaderBox').classList.add('d-none');
+                console.error('Error:', error);
+            });
+    };
+
 
 
 
 
 
     const productHeader = [
+        {
+            key: 'sno',
+            title: 'S.No',
+        },
         {
             key: 'name',
             title: 'Question',
@@ -225,8 +278,8 @@ export const FaqsListing = () => {
                             </h2>
                         </div>
                         <div className="col-md-3 d-flex justify-content-end">
-                                    <CustomButton variant='primaryButton' text='Add Faq' type='button' onClick={() => { setShowModal(true) }} />
-                                </div>
+                            <CustomButton variant='primaryButton' text='Add Faq' type='button' onClick={() => { setShowModal(true) }} />
+                        </div>
                     </div>
                     <div className="row mb-3">
                         <div className="col-12">
@@ -239,9 +292,12 @@ export const FaqsListing = () => {
                                         <tbody>
                                             {profileData && profileData?.map((item, index) => (
                                                 <tr key={index}>
+                                                    <td><span onClick={() => { editSequence(item?.sequence) }}>{item?.sequence}</span></td>
+
                                                     <td className="text-capitalize w-100">
                                                         {item?.question}
                                                     </td>
+
                                                     <td>
                                                         <Dropdown className="tableDropdown">
                                                             <Dropdown.Toggle variant="transparent" className="notButton classicToggle">
@@ -285,6 +341,8 @@ export const FaqsListing = () => {
 
                     />
 
+
+
                     <div class="inputWrapper">
                         <label class="mainLabel">Write Answer<span>*</span></label>
                         <textarea
@@ -299,12 +357,25 @@ export const FaqsListing = () => {
                         </textarea>
                     </div>
 
+                    <CustomInput
+                        label="Sequence"
+                        type="number"
+                        name="sequence"
+                        labelClass='mainLabel m-2'
+                        inputClass='mainInput w-auto'
+                        onChange={(event) => {
+                            setFormData({ ...formData, sequence: event.target.value });
+                            console.log(formData);
+                        }}
+
+                    />
+
                     <CustomButton variant='primaryButton' text='Submit' type='button' onClick={handleSubmit} />
                 </CustomModal>
 
 
                 <CustomModal show={editForm} close={() => { setEditForm(false) }} >
-                <CustomInput
+                    <CustomInput
                         label="Edit Question"
                         type="text"
                         placeholder="Edit Question"
@@ -335,6 +406,30 @@ export const FaqsListing = () => {
                         </textarea>
                     </div>
                     <CustomButton variant='primaryButton' text='Update' type='button' onClick={() => { editSubmit(formData?.id) }} />
+                </CustomModal>
+
+                <CustomModal show={showSequence} close={() => { setShowSequence(false) }} >
+                    <h5 className="text-center mb-3">Your Current Sequence is <span className="text-success">{formData?.seq1_id}</span></h5>
+                    <form>
+                        <CustomInput
+                            label="Swap Sequence"
+                            type="number"
+                            placeholder="Edit Question"
+                            required
+                            name="seq2_id"
+                            labelClass='mainLabel'
+                            inputClass='mainInput'
+                            onChange={(event) => {
+                                setFormData({ ...formData, seq2_id: event.target.value });
+                                console.log(formData);
+                            }}
+
+                        />
+
+                        <CustomButton variant='primaryButton' text='Update' type='button' onClick={updateSwaping} />
+                    </form>
+
+
                 </CustomModal>
 
                 <CustomModal show={addProduct} close={() => { setAddProduct(false) }} success heading='Faqs Added Successfully!' />
