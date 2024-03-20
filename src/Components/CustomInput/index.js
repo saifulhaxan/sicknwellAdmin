@@ -1,3 +1,15 @@
+/**
+    * @description      : 
+    * @author           : Saif
+    * @group            : 
+    * @created          : 21/03/2024 - 00:08:55
+    * 
+    * MODIFICATION LOG
+    * - Version         : 1.0.0
+    * - Date            : 21/03/2024
+    * - Author          : Saif
+    * - Modification    : 
+**/
 import { useState } from 'react'
 import "./style.css"
 
@@ -23,7 +35,7 @@ const CustomInput = (props) => {
             <button type='button' className='eyeButton' onClick={togglePassType}><FontAwesomeIcon icon={typePass ? faEyeSlash : faEye} /></button>
           </div>
           :
-          <input type={props?.type} placeholder={props?.placeholder} required={props?.required} id={props?.id} name={props?.name} className={props?.inputClass} onChange={props?.onChange} value={props.value} disabled={props.disabled}/>
+          <input type={props?.type} placeholder={props?.placeholderss} required={props?.required} id={props?.id} name={props?.name} className={props?.inputClass} onChange={props?.onChange} value={props.value} disabled={props.disabled}/>
         }
       </div>
     </>
