@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 
 import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faEye, faEdit, faTimes, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faEye, faEdit, faTimes, faFilter, faTachometer } from "@fortawesome/free-solid-svg-icons";
 
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import CustomTable from "./../../Components/CustomTable";
@@ -42,20 +42,16 @@ export const CompanyManagement = () => {
   const [inputValue, setInputValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('')
   const LogoutData = localStorage.getItem('login');
+  const [initShow, setInitShow] = useState(false);
+  const [successMessage, setSuccssMessage] = useState('Subscription Cancelled Successfuly!');
+  const [userID, setUserID] = useState();
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
 
-  const inActive = () => {
-    setShowModal(false)
-    setShowModal2(true)
-  }
-  const ActiveMale = () => {
-    setShowModal3(false)
-    setShowModal4(true)
-  }
+
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
@@ -110,6 +106,40 @@ export const CompanyManagement = () => {
     document.title = 'SicknWell | Company Management';
     UserListing()
   }, []);
+
+
+  const cancelSubscription = () => {
+    document.querySelector('.loaderBox').classList.remove('d-none')
+    fetch(`${BASE_URL}cancel_user_subscription/${userID}/`,
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: `Token ${LogoutData}`
+        }
+      }
+    )
+      .then(response => {
+        return response.json()
+      })
+
+      .then(data => {
+        console.log('ssasas', data)
+        document.querySelector('.loaderBox').classList.add('d-none')
+        setInitShow(false)
+        // setMessage(data?.message)
+        setShowModal(true)
+        setTimeout(() => {
+          setShowModal(false)
+        }, 1500)
+       
+      })
+      .catch(error => {
+        console.log(error)
+        document.querySelector('.loaderBox').classList.add('d-none')
+      })
+  }
 
   console.log(data)
 
@@ -265,6 +295,15 @@ export const CompanyManagement = () => {
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/company-management/company-details/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
+                                  {
+                                    item?.subscription_status == 'true' ? (
+                                      <button onClick={() => {
+                                        setInitShow(true);
+                                        setUserID(item?.id);
+                                      }} type="button" className="tableAction"><FontAwesomeIcon icon={faTachometer}></FontAwesomeIcon>  Cancel Subscription</button>
+                                    ) : ''
+                                  }
+                                 
                                   {/* <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link> */}
                                 </Dropdown.Menu>
                               </Dropdown>
@@ -286,11 +325,22 @@ export const CompanyManagement = () => {
             </div>
           </div>
 
-          <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' >Hello World</CustomModal>
-          <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
-
-          <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={ActiveMale} heading='Are you sure you want to mark this user as Active?' />
-          <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Marked as Active' />
+          <CustomModal
+        show={initShow}
+        close={() => {
+          setInitShow(false)
+        }}
+        action={cancelSubscription}
+        heading='Are you sure you want to cancel your subscription?'
+      />
+      <CustomModal
+        show={showModal}
+        close={() => {
+          setShowModal(false)
+        }}
+        success
+        heading={successMessage}
+      />
 
 
 

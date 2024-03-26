@@ -47,6 +47,8 @@ export const CompanyDetails = () => {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+
   const [showEdit, setShowEdit] = useState(false);
   const [showEditSubscription, setShowEditSubscription] = useState(false);
 
@@ -154,6 +156,52 @@ export const CompanyDetails = () => {
       })
   }
 
+  const handleChangePrice = (e) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+
+    delete formData?.product_description
+    delete formData?.product_status
+    delete formData?.product_name
+    delete formData?.interval
+    delete formData?.product_type
+    delete formData?.product_price
+
+    setFormData({
+      ...formData,
+      company_id: profileData?.id
+    });
+
+    fetch(`${BASE_URL}company_product_admin/`,
+      {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+        body: JSON.stringify(formData)
+      }
+    )
+      .then((response) => {
+        return response.json()
+      })
+      .then((data) => {
+        // setProfileData(data)
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        setShowModal1(false);
+        alert(data?.message)
+        PrimaryUserDetai()
+        MembersDetail()
+
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // document.querySelector('body').classList.remove('loaderShow');
+        console.log(error);
+      })
+  }
+
   const handleEditPrice = (e) => {
     document.querySelector('.loaderBox').classList.remove("d-none");
     fetch(`${BASE_URL}company_price_update/${profileData?.id}/${formData?.product_price}/`,
@@ -170,11 +218,12 @@ export const CompanyDetails = () => {
         return response.json()
       })
       .then((data) => {
-        setProfileData(data)
         document.querySelector('.loaderBox').classList.add("d-none");
         // document.querySelector('body').classList.remove('loaderShow');
         setShowEdit(false);
         console.log(data)
+        PrimaryUserDetai()
+    MembersDetail()
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -200,10 +249,9 @@ export const CompanyDetails = () => {
         return response.json()
       })
       .then((data) => {
-        setProfileData(data)
         document.querySelector('.loaderBox').classList.add("d-none");
         // document.querySelector('body').classList.remove('loaderShow');
-        setShowModal(false);
+        setShowModal1(false);
         console.log(data)
       })
       .catch((error) => {
@@ -253,10 +301,16 @@ export const CompanyDetails = () => {
                     <FontAwesomeIcon icon={faEdit} />
                     Add Package Price
                   </button>
-                ) : (
-                  <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                ) : profileData?.subscription_status != "active" ? (
+
+                  <button type="button" onClick={() => { setShowModal1(true) }} className="btn border-0">
                     <FontAwesomeIcon icon={faEdit} />
                     Change Package Price
+                  </button>
+                ) : (
+                      <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                    <FontAwesomeIcon icon={faEdit} />
+                    Change Subscription Price
                   </button>
                 )
               }
@@ -333,7 +387,7 @@ export const CompanyDetails = () => {
                   </h2>
                 </div>
                 <div className="col-md-5 text-right">
-                   {/* <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
+                  {/* <button type="button" onClick={() => { setShowEdit(true) }} className="btn border-0">
                     <FontAwesomeIcon icon={faEdit} />
                     Edit Subscription Price Per Employee
                   </button> */}
@@ -474,11 +528,35 @@ export const CompanyDetails = () => {
           <CustomButton variant='primaryButton' text='Add Price' type='button' onClick={handleSubmit} />
         </CustomModal>
 
+
+        <CustomModal show={showModal1} close={() => { setShowModal1(false) }} >
+          <CustomInput
+            label="Enter Package Price"
+            type="number"
+            placeholder="Enter Package Price"
+            required
+            name="new_price"
+            labelClass='mainLabel'
+            inputClass='mainInput'
+            onChange={(e)=>{
+              setFormData({
+                ...formData, new_price: parseInt(e.target.value)
+              })
+
+              console.log(typeof(formData?.new_price))
+            }}
+
+
+          />
+
+          <CustomButton variant='primaryButton' text='Update Price' type='button' onClick={handleChangePrice} />
+        </CustomModal>
+
         <CustomModal show={showEdit} close={() => { setShowEdit(false) }} >
           <CustomInput
-            label="Update Subscription Price"
+            label="Update Subscription Per Employee"
             type="number"
-            placeholder="Update Subscription Price"
+            // placeholder="Update Subscription Price"
             required
             name="product_price"
             labelClass='mainLabel'
