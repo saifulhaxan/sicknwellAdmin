@@ -296,7 +296,7 @@ export const CompanyManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/company-management/company-details/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   {
-                                    item?.subscription_status == "true" ? (
+                                    item?.subscription_status === true ? (
                                       <button onClick={() => {
                                         setInitShow(true);
                                         setUserID(item?.id);
