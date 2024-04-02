@@ -325,7 +325,7 @@ export const CompanyManagement = () => {
             </div>
           </div>
 
-          <CustomModal
+      <CustomModal
         show={initShow}
         close={() => {
           setInitShow(false)

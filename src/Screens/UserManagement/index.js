@@ -297,7 +297,8 @@ export const UserManagement = () => {
                             <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
-                            <td>{dateFormat(item?.date_joined)}</td>
+                            {/* <td>{dateFormat(item?.date_joined)}</td> */}
+                            <td>{item?.date_joined}</td>
                             {/* <td className={item?.status == 1 ? 'greenColor' : "redColor"}>{item?.status == 1 ? 'Active' : "Inactive"}</td> */}
                             <td>
                               <Dropdown className="tableDropdown">
