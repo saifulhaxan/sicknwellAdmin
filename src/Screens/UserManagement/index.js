@@ -11,11 +11,14 @@
     * - Modification    : 
 **/
 import { useState, useEffect } from "react";
+import XLSX from 'xlsx';
+import { utils as XLSXUtils, writeFile as writeExcelFile } from 'xlsx';
+
 import { Link } from "react-router-dom";
 
 import { Dropdown } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEllipsisV, faEye, faEdit, faTimes, faFilter, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisV, faEye, faEdit, faTimes, faFilter, faTrash, faFileExcel } from "@fortawesome/free-solid-svg-icons";
 
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import CustomTable from "./../../Components/CustomTable";
@@ -40,11 +43,17 @@ export const UserManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [inputValue, setInputValue] = useState('');
-  const [selectedStatus, setSelectedStatus] = useState('')
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [count, setCount] = useState();
+  const [isFilter, setIsFiltered] = useState();
+  const [searchData, setSearchData] = useState();
+  const [csv, setCsv] = useState();
   const LogoutData = localStorage.getItem('login');
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    FilterListing(pageNumber)
+
   };
 
 
@@ -59,15 +68,19 @@ export const UserManagement = () => {
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
+
+
   }
 
+
+
   const filterData = data.filter(item =>
-    (
-      item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) || 
-      item?.email.toLowerCase().includes(inputValue.toLowerCase())
-    )
+  (
+    item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.email.toLowerCase().includes(inputValue.toLowerCase())
+  )
   );
-  
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
@@ -91,7 +104,65 @@ export const UserManagement = () => {
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // console.log(data)
-        setData(data);
+        setData(data?.results);
+        setCount(data?.count)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        console.log(error)
+      })
+  }
+
+
+  const FilterListing = (pageCount) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}api/v1/users/list_all_users/?page=${pageCount}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+      }
+    )
+
+      .then(response =>
+        response.json()
+      )
+      .then((data) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // console.log(data)
+        setData(data?.results);
+        setCount(data?.count)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        console.log(error)
+      })
+  }
+
+  const searchFilter = (isReffered, isSearch, isCsv) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}api/v1/users/list_all_users/?filter_referred_by=${isReffered}${isSearch ? `&search=${isSearch}` : ''}${isCsv ? `&export_csv=${isCsv}` : ''}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+      }
+    )
+
+      .then(response =>
+        response.json()
+      )
+      .then((data) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // console.log(data)
+        setData(data?.results);
+        setCount(data?.count)
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -130,15 +201,15 @@ export const UserManagement = () => {
   const dateFormat = (dateFor) => {
     const datetimeString = dateFor;
     const date = new Date(datetimeString);
-    
+
     // Extracting date components
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
     const day = String(date.getDate()).padStart(2, '0');
-    
+
     // Creating the date string in the format "YYYY-MM-DD"
     const dateString = `${year}-${month}-${day}`;
-    
+
     return dateString; // Output: "2024-01-30"
   }
 
@@ -171,6 +242,10 @@ export const UserManagement = () => {
     {
       key: "lname",
       title: "Last Name",
+    },
+    {
+      key: 'refferedBy',
+      title: 'Reffered By'
     },
     {
       key: "email",
@@ -236,6 +311,53 @@ export const UserManagement = () => {
     }
   ]
 
+  const handleChangeFilter = (e) => {
+    const { checked } = e.target;
+    console.log(checked);
+    setIsFiltered(checked)
+    if (checked === true) {
+      searchFilter(checked)
+      setIsExcel(true);
+    } else {
+      setIsExcel(false);
+      UserListing()
+    }
+  }
+
+  const searchAction = () => {
+    searchFilter(isFilter, inputValue)
+  }
+
+  const downloadFile = () => {
+    searchFilter(isFilter, inputValue, true)
+  }
+
+
+  const [csvData, setCsvData] = useState('');
+  const [isExcel, setIsExcel] = useState(false);
+
+  // Event handler for the button click
+  const handleDownload = async () => {
+    try {
+      // Fetch data from the API
+      // const data = await fetchData();
+      // Convert data to Excel format
+      const workbook = XLSXUtils.book_new();
+      const sheet = XLSXUtils.json_to_sheet(data);
+      // Add bold style to header row
+      sheet["!cols"] = [{ wch: 20 }, { wch: 20 }]; // Set column widths
+      sheet["A1"].s = { font: { bold: true } }; // Set bold style for cell A1
+      sheet["B1"].s = { font: { bold: true } }; // Set bold style for cell B1
+      // Add sheet to workbook
+      XLSXUtils.book_append_sheet(workbook, sheet, "Sheet1");
+      // Export workbook to Excel file
+      writeExcelFile(workbook, 'data.xlsx');
+    } catch (error) {
+      console.error('Error downloading Excel:', error);
+    }
+  };
+
+
   return (
     <>
       <DashboardLayout>
@@ -248,8 +370,8 @@ export const UserManagement = () => {
                     <h2 className="mainTitle">User Management</h2>
                   </div>
                   <div className="col-md-8 mb-2">
-                    <div className="addUser align-items-end">
-                      <SelectBox
+                    <div className="addUser align-items-center">
+                      {/* <SelectBox
                         selectClass="mainInput"
                         name="sort"
                         label="Item Per Page:"
@@ -259,7 +381,11 @@ export const UserManagement = () => {
                         onChange={(e) => {
                           setItemsPerPage(e.target.value);
                         }}
-                      />
+                      /> */}
+                      <div className="inputWrapper">
+                        <input type="checkbox" name="filter_referred_by" id="filter" onChange={handleChangeFilter} />
+                        <label for="filter" className="ps-1">Reffered By:</label>
+                      </div>
                       {/* <SelectBox
                         selectClass="mainInput"
                         name="filter"
@@ -272,6 +398,14 @@ export const UserManagement = () => {
                         }}
                       /> */}
                       <CustomInput type="text" placeholder="Search by First Name OR Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <div className="inputWrapper">
+                        <CustomButton variant='primaryButton' text='Search' type='button' onClick={searchAction} />
+                        {
+                          isExcel && (
+                            <button type="button" className="exportCsv border-0 bg-success btn text-light mx-2" onClick={handleDownload}><FontAwesomeIcon icon={faFileExcel}></FontAwesomeIcon></button>
+                          )
+                        }
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -282,7 +416,7 @@ export const UserManagement = () => {
 
                     >
                       <tbody>
-                        {currentItems.map((item, index) => (
+                        {data?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
@@ -291,10 +425,11 @@ export const UserManagement = () => {
                             <td className="text-capitalize">
                               {item?.last_name}
                             </td>
+                            <td>{item?.referred_by === "" ? 'Null' : item?.referred_by}</td>
                             <td>{item?.email}</td>
                             <td>{item?.company_name == 'null' || item?.company_name === null ? 'N/A' : item?.company_name}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
+                            <td>{item?.role == 0 ? 'Individual' : item?.role == 1 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
                             {/* <td>{dateFormat(item?.date_joined)}</td> */}
@@ -308,7 +443,7 @@ export const UserManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/user-management/user-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
-                                  <button type="button" className="border-0 tableAction" onClick={()=>{UserDelete(item?.id)}}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
+                                  <button type="button" className="border-0 tableAction" onClick={() => { UserDelete(item?.id) }}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -318,8 +453,8 @@ export const UserManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={itemsPerPage}
-                      totalItems={filterData.length}
+                      itemsPerPage={data?.length}
+                      totalItems={count}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
                     />

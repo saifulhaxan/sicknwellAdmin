@@ -42,10 +42,41 @@ export const MembersManagement = () => {
   const [inputValue, setInputValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('')
   const LogoutData = localStorage.getItem('login');
+  const [count, setCount] = useState();
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
+    FilterListing(pageNumber)
+
   };
+
+  const FilterListing = (pageCount) => {
+    document.querySelector('.loaderBox').classList.remove("d-none");
+    fetch(`${BASE_URL}api/v1/users/list_all_users/?page=${pageCount}`,
+      {
+        method: 'GET',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${LogoutData}`
+        },
+      }
+    )
+
+      .then(response =>
+        response.json()
+      )
+      .then((data) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        // console.log(data)
+        setData(data?.results);
+        setCount(data?.count)
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        console.log(error)
+      })
+  }
 
 
   const inActive = () => {
@@ -89,8 +120,9 @@ export const MembersManagement = () => {
       )
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(data)
-        setData(data);
+        // console.log(data)
+        setData(data?.results);
+        setCount(data?.count)
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -194,9 +226,9 @@ export const MembersManagement = () => {
                   <div className="col-md-4 mb-2">
                     <h2 className="mainTitle">Members Management</h2>
                   </div>
-                  <div className="col-md-8 mb-2">
+                  <div className="col-md-4 mb-2">
                     <div className="addUser align-items-end">
-                      <SelectBox
+                      {/* <SelectBox
                         selectClass="mainInput"
                         name="sort"
                         label="Item Per Page:"
@@ -206,7 +238,7 @@ export const MembersManagement = () => {
                         onChange={(e) => {
                           setItemsPerPage(e.target.value);
                         }}
-                      />
+                      /> */}
                       {/* <SelectBox
                         selectClass="mainInput"
                         name="filter"
@@ -230,7 +262,7 @@ export const MembersManagement = () => {
 
                     >
                       <tbody>
-                        {currentItems.map((item, index) => (
+                        {filterData?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
@@ -263,8 +295,8 @@ export const MembersManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={itemsPerPage}
-                      totalItems={filterData.length}
+                      itemsPerPage={data?.length}
+                      totalItems={count}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
                     />
