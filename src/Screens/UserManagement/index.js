@@ -41,7 +41,7 @@ export const UserManagement = () => {
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(15);
   const [inputValue, setInputValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('');
   const [count, setCount] = useState();
@@ -52,8 +52,6 @@ export const UserManagement = () => {
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    FilterListing(pageNumber)
-
   };
 
 
@@ -74,12 +72,14 @@ export const UserManagement = () => {
 
 
 
-  const filterData = data.filter(item =>
-  (
-    item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.email.toLowerCase().includes(inputValue.toLowerCase())
-  )
+  const filterData = data?.filter(item =>
+    (
+      (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
+      (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
+      (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
+    )
   );
+  
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -104,8 +104,7 @@ export const UserManagement = () => {
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // console.log(data)
-        setData(data?.results);
-        setCount(data?.count)
+        setData(data);
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -114,33 +113,33 @@ export const UserManagement = () => {
   }
 
 
-  const FilterListing = (pageCount) => {
-    document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`${BASE_URL}api/v1/users/list_all_users/?page=${pageCount}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${LogoutData}`
-        },
-      }
-    )
+  // const FilterListing = (pageCount) => {
+  //   document.querySelector('.loaderBox').classList.remove("d-none");
+  //   fetch(`${BASE_URL}api/v1/users/list_all_users/?page=${pageCount}`,
+  //     {
+  //       method: 'GET',
+  //       headers: {
+  //         'Accept': 'application/json',
+  //         'Content-Type': 'application/json',
+  //         'Authorization': `Token ${LogoutData}`
+  //       },
+  //     }
+  //   )
 
-      .then(response =>
-        response.json()
-      )
-      .then((data) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        // console.log(data)
-        setData(data?.results);
-        setCount(data?.count)
-      })
-      .catch((error) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(error)
-      })
-  }
+  //     .then(response =>
+  //       response.json()
+  //     )
+  //     .then((data) => {
+  //       document.querySelector('.loaderBox').classList.add("d-none");
+  //       // console.log(data)
+  //       setData(data?.results);
+  //       setCount(data?.count)
+  //     })
+  //     .catch((error) => {
+  //       document.querySelector('.loaderBox').classList.add("d-none");
+  //       console.log(error)
+  //     })
+  // }
 
   const searchFilter = (isReffered, isSearch, isCsv) => {
     document.querySelector('.loaderBox').classList.remove("d-none");
@@ -161,8 +160,8 @@ export const UserManagement = () => {
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // console.log(data)
-        setData(data?.results);
-        setCount(data?.count)
+        setData(data);
+        // setCount(data?.count)
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -416,7 +415,7 @@ export const UserManagement = () => {
 
                     >
                       <tbody>
-                        {data?.map((item, index) => (
+                        {currentItems?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
@@ -453,8 +452,8 @@ export const UserManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={data?.length}
-                      totalItems={count}
+                      itemsPerPage={itemsPerPage}
+                      totalItems={data?.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
                     />

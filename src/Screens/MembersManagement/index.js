@@ -38,45 +38,14 @@ export const MembersManagement = () => {
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(8);
+  const [itemsPerPage, setItemsPerPage] = useState(15);
   const [inputValue, setInputValue] = useState('');
   const [selectedStatus, setSelectedStatus] = useState('')
   const LogoutData = localStorage.getItem('login');
-  const [count, setCount] = useState();
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-    FilterListing(pageNumber)
-
   };
-
-  const FilterListing = (pageCount) => {
-    document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`${BASE_URL}api/v1/users/list_all_users/?page=${pageCount}`,
-      {
-        method: 'GET',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${LogoutData}`
-        },
-      }
-    )
-
-      .then(response =>
-        response.json()
-      )
-      .then((data) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        // console.log(data)
-        setData(data?.results);
-        setCount(data?.count)
-      })
-      .catch((error) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(error)
-      })
-  }
 
 
   const inActive = () => {
@@ -120,9 +89,8 @@ export const MembersManagement = () => {
       )
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
-        // console.log(data)
-        setData(data?.results);
-        setCount(data?.count)
+        console.log(data)
+        setData(data);
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
@@ -262,7 +230,7 @@ export const MembersManagement = () => {
 
                     >
                       <tbody>
-                        {filterData?.map((item, index) => (
+                        {currentItems.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
                             <td className="text-capitalize">
@@ -295,8 +263,8 @@ export const MembersManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={data?.length}
-                      totalItems={count}
+                      itemsPerPage={itemsPerPage}
+                      totalItems={filterData.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
                     />
