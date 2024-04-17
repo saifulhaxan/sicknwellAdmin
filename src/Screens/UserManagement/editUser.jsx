@@ -96,7 +96,7 @@ export const EditUserDetails = () => {
   const GetUserDetail = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
     
-    fetch(`${BASE_URL}api/v1/users/${id}/`,
+    fetch(`${BASE_URL}api/v1/users/${id}/user_edit_view/`,
       {
         method: 'GET',
         headers: {
@@ -167,7 +167,7 @@ export const EditUserDetails = () => {
                       <div className="col-md-4 mb-4">
                         <CustomInput
                           label='Middle Name'
-                          required
+                          // required
                           id='mname'
                           type='text'
                           placeholder='Enter Middle Name'

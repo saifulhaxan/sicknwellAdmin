@@ -348,9 +348,17 @@ export const UserManagement = () => {
       sheet["A1"].s = { font: { bold: true } }; // Set bold style for cell A1
       sheet["B1"].s = { font: { bold: true } }; // Set bold style for cell B1
       // Add sheet to workbook
+
+      var today = new Date();
+      var year = today.getFullYear();
+      var mes = today.getMonth()+1;
+      var dia = today.getDate();
+      var currentDate =dia+"-"+mes+"-"+year;
+ 
+
       XLSXUtils.book_append_sheet(workbook, sheet, "Sheet1");
       // Export workbook to Excel file
-      writeExcelFile(workbook, 'data.xlsx');
+      writeExcelFile(workbook, 'SNW Referred By-'+currentDate+'(Report Generated).xlsx');
     } catch (error) {
       console.error('Error downloading Excel:', error);
     }
@@ -368,8 +376,8 @@ export const UserManagement = () => {
                   <div className="col-md-4 mb-2">
                     <h2 className="mainTitle">User Management</h2>
                   </div>
-                  <div className="col-md-8 mb-2">
-                    <div className="addUser align-items-center">
+                  <div className="col-md-12 mb-2">
+                    <div className="addUser align-items-end">
                       {/* <SelectBox
                         selectClass="mainInput"
                         name="sort"
@@ -381,7 +389,7 @@ export const UserManagement = () => {
                           setItemsPerPage(e.target.value);
                         }}
                       /> */}
-                      <div className="inputWrapper">
+                      <div className="inputWrapper rel">
                         <input type="checkbox" name="filter_referred_by" id="filter" onChange={handleChangeFilter} />
                         <label for="filter" className="ps-1">Reffered By:</label>
                       </div>
@@ -396,7 +404,10 @@ export const UserManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="text" placeholder="Search by First Name OR Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="date" inputClass="mainInput" label="Start Date" />
+                      <CustomInput type="date" inputClass="mainInput" label="End Date" />
+
+                      <CustomInput type="text" placeholder="Search by First Name OR Email" label="Search" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                       <div className="inputWrapper">
                         <CustomButton variant='primaryButton' text='Search' type='button' onClick={searchAction} />
                         {

@@ -26,5 +26,34 @@
 }
 
 
+.addUser .customButton {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    font-weight: 600;
+    text-transform: capitalize;
+    text-align: center;
+    border: 1px solid;
+    border-radius: 6px;
+    padding: 0.7rem 1.2rem;
+    min-width: auto;
+    position: relative;
+    transition: 0.3s linear;
+    cursor: pointer;
+}
+
+@media(min-width: 1024px) {
+    .inputWrapper.rel {
+        position: relative;
+        bottom: 10px;
+    }
+
+    .exportCsv {
+        padding: 0.4666rem 0.6rem;
+        border-radius: 4px;
+        position: relative;
+        top: -2px;
+    }
+}
 
 
