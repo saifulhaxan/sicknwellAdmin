@@ -62,10 +62,10 @@ export const MembersManagement = () => {
   }
 
   const filterData = data.filter(item =>
-    (
-      item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) || 
-      item?.email.toLowerCase().includes(inputValue.toLowerCase())
-    )
+  (
+    item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.email.toLowerCase().includes(inputValue.toLowerCase())
+  )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -241,7 +241,7 @@ export const MembersManagement = () => {
                             </td>
                             <td>{item?.email}</td>
                             <td>{item?.phone_number}</td>
-                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : 'Employee'}</td>
+                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : item?.role == 5 ? 'Family' : item?.role == 6 ? 'Employee' : 'Admin'}</td>
 
                             {/* <td>{item?.created_at}</td> */}
                             <td>{item?.dob}</td>
