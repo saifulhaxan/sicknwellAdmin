@@ -176,11 +176,13 @@ const UserManagementDetail = () => {
                       <h4 className="secondaryLabel">Plan</h4>
                       <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
                     </div>
+                    {profileData?.card_pdf && (
                     <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Membership Card</h4>
                       <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${profileData?.card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
                       <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
                     </div>
+                    )}
                   </div>
                 </div>
               </div>

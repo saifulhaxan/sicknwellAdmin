@@ -151,6 +151,11 @@ const MemeberDetails = () => {
                       <h4 className="secondaryLabel">First Name</h4>
                       <p className="secondaryText">{profileData?.first_name}</p>
                     </div>
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Last Name</h4>
+                      <p className="secondaryText">{profileData?.last_name}</p>
+                    </div>
                     <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Email Address</h4>
                       <p className="secondaryText">{profileData?.email}</p>

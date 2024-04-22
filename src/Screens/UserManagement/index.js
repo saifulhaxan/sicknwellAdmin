@@ -252,7 +252,7 @@ export const UserManagement = () => {
     },
     {
       key: "cname",
-      title: "Company Name",
+      title: "Plan Type",
     },
     {
       key: "number",
@@ -437,7 +437,7 @@ export const UserManagement = () => {
                             </td>
                             <td>{item?.referred_by === "" ? 'Null' : item?.referred_by}</td>
                             <td>{item?.email}</td>
-                            <td>{item?.company_name == 'null' || item?.company_name === null ? 'N/A' : item?.company_name}</td>
+                            <td className="text-capitalize">{item?.plan_type}</td>
                             <td>{item?.phone_number}</td>
                             <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : item?.role == 5 ? 'Family' : item?.role == 6 ? 'Employee' : 'Admin'}</td>
                             {/* <td>{item?.created_at}</td> */}

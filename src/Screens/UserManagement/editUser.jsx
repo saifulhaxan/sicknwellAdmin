@@ -11,7 +11,7 @@
     * - Modification    : 
 **/
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { DashboardLayout } from "../../Components/Layout/DashboardLayout";
 import BackButton from "../../Components/BackButton";
 import CustomModal from "../../Components/CustomModal";
@@ -22,6 +22,7 @@ import { BASE_URL } from "../../Api/apiConfig";
 export const EditUserDetails = () => {
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({});
 
@@ -88,6 +89,8 @@ export const EditUserDetails = () => {
       })
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
+        alert("User Updated Successfully!");
+        navigate('/user-management');
         console.log(data);
       });
   };
