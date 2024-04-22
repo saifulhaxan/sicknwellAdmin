@@ -72,13 +72,33 @@ export const UserManagement = () => {
 
 
 
-  const filterData = data?.filter(item =>
+  // const filterData = data?.filter(item => {
+  //   const inputLower = inputValue.toLowerCase();
+  //   const firstNameMatch = item?.first_name && item.first_name.toLowerCase().includes(inputLower);
+  //   const emailMatch = item?.email && item.email.toLowerCase().includes(inputLower);
+  //   const referredByMatch = item?.referred_by && item.referred_by.toLowerCase().includes(inputLower);
+  
+  //   // Date range filtering
+  //   const minDate = new Date(minDate); 
+  //   const maxDate = new Date(maxDate); 
+  //   const itemDate = new Date(item?.dob); 
+  
+  //   const dateMatch = itemDate >= minDate && itemDate <= maxDate;
+  
+  //   return (firstNameMatch || emailMatch || referredByMatch) && dateMatch;
+  // });
+
+
+
+  
+const filterData = data?.filter(item =>
     (
       (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
       (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
       (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
     )
   );
+  
   
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -331,6 +351,8 @@ export const UserManagement = () => {
     searchFilter(isFilter, inputValue, true)
   }
 
+  const [minDate, setMinDate] = useState('');
+  const [maxDate, setMaxDate] = useState('');
 
   const [csvData, setCsvData] = useState('');
   const [isExcel, setIsExcel] = useState(false);
@@ -404,8 +426,8 @@ export const UserManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="date" inputClass="mainInput" label="Start Date" />
-                      <CustomInput type="date" inputClass="mainInput" label="End Date" />
+                      <CustomInput type="date" inputClass="mainInput" label="Start Date" value={minDate} onChange={(e)=>{setMinDate(e.target.value)}}/>
+                      <CustomInput type="date" inputClass="mainInput" label="End Date" value={maxDate} onChange={(e)=>{setMaxDate(e.target.value)}} />
 
                       <CustomInput type="text" placeholder="Search by First Name OR Email" label="Search" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                       <div className="inputWrapper">
