@@ -22,6 +22,16 @@
 }
 
 
+.editMember button {
+    border: none;
+}
+
+.editMember {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
 @media screen and (max-width: 1200px) and (min-width: 768px) {
     .stats, .stats:not(:last-child) {
         border-color: #fff0;
