@@ -163,7 +163,7 @@ const filterData = data?.filter(item =>
 
   const searchFilter = (isReffered, isSearch, isCsv) => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`${BASE_URL}api/v1/users/list_all_users/?filter_referred_by=${isReffered}${isSearch ? `&search=${isSearch}` : ''}${isCsv ? `&export_csv=${isCsv}` : ''}`,
+    fetch(`${BASE_URL}api/v1/users/list_all_users/?filter_referred_by=${isReffered}${isSearch ? `&search=${isSearch}` : ''}${isCsv ? `&export_csv=${isCsv}` : ''}${minDate ? `&start_date=${minDate}` : ''}${maxDate ? `&end_date=${maxDate}` : ''}`,
       {
         method: 'GET',
         headers: {
@@ -485,7 +485,7 @@ const filterData = data?.filter(item =>
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={itemsPerPage}
+                      itemsPerPage={data?.length <= 15 ? data?.length : itemsPerPage}
                       totalItems={data?.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
