@@ -91,19 +91,19 @@ export const UserManagement = () => {
 
 
   
-const filterData = data?.filter(item =>
-    (
-      (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
-      (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
-      (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
-    )
-  );
+// const filterData = data?.filter(item =>
+//     (
+//       (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
+//       (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
+//       (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
+//     )
+//   );
   
   
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filterData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data?.slice(indexOfFirstItem, indexOfLastItem);
 
   const UserListing = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
@@ -180,6 +180,8 @@ const filterData = data?.filter(item =>
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // console.log(data)
+        setCurrentPage(1);
+
         setData(data);
         // setCount(data?.count)
       })
@@ -335,7 +337,7 @@ const filterData = data?.filter(item =>
     console.log(checked);
     setIsFiltered(checked)
     if (checked === true) {
-      searchFilter(checked)
+      // searchFilter(checked)
       setIsExcel(true);
     } else {
       setIsExcel(false);
