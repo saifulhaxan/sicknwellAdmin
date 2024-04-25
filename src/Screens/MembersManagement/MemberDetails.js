@@ -25,7 +25,7 @@ import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 import Tab from 'react-bootstrap/Tab';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faFilePdf } from "@fortawesome/free-solid-svg-icons";
 import { format } from 'date-fns';
 
 
@@ -147,7 +147,7 @@ const MemeberDetails = () => {
         middle_name: middleName,
         dob: formattedDate,
         relation_to_member1: relationMember,
-        member_id: MemberID 
+        member_id: MemberID
       }
     )
 
@@ -180,13 +180,13 @@ const MemeberDetails = () => {
         console.log(data);
         setShowModal(false)
         setShowModal4(true);
-        setTimeout(()=>{
+        setTimeout(() => {
           setShowModal4(false);
-        },1500)
+        }, 1500)
 
         MembersDetail();
-        
-       
+
+
 
       })
       .catch((error) => {
@@ -307,6 +307,13 @@ const MemeberDetails = () => {
                                         <h4 className="secondaryLabel">Relation to Primary Member</h4>
                                         <p className="secondaryText">{item?.relation_to_member1} </p>
                                       </div>
+                                      {item?.membership_card_pdf && (
+                                        <div className="col-xl-4 col-md-4 mb-3">
+                                          <h4 className="secondaryLabel">Membership Card</h4>
+                                          <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${item?.membership_card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
+                                          {/* <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button> */}
+                                        </div>
+                                      )}
                                       <div className="col-md-12">
                                         <div className="editMember">
                                           <button type="button" onClick={() => { editMember(item?.first_name, item?.middle_name, item?.last_name, item?.dob, item?.relation_to_member1, item?.id) }}><FontAwesomeIcon icon={faEdit}></FontAwesomeIcon></button>
@@ -337,7 +344,7 @@ const MemeberDetails = () => {
         <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
 
         <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={Active} heading='Are you sure you want to mark this user as Active?' />*/}
-        <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Member Updated Successfully!' /> 
+        <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Member Updated Successfully!' />
 
         <CustomModal show={showModal} close={() => { setShowModal(false) }} >
           <CustomInput

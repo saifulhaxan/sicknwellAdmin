@@ -163,7 +163,7 @@ export const UserManagement = () => {
 
   const searchFilter = (isReffered, isSearch, isCsv) => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`${BASE_URL}api/v1/users/list_all_users/?filter_referred_by=${isReffered}${isSearch ? `&search=${isSearch}` : ''}${isCsv ? `&export_csv=${isCsv}` : ''}${minDate ? `&start_date=${minDate}` : ''}${maxDate ? `&end_date=${maxDate}` : ''}`,
+    fetch(`${BASE_URL}api/v1/users/list_all_users/?${isReffered ? `filter_referred_by=${isReffered}` : ''}${isSearch ? `&search=${isSearch}` : ''}${isCsv ? `&export_csv=${isCsv}` : ''}${minDate ? `&start_date=${minDate}` : ''}${maxDate ? `&end_date=${maxDate}` : ''}`,
       {
         method: 'GET',
         headers: {
@@ -255,6 +255,10 @@ export const UserManagement = () => {
     {
       key: "id",
       title: "S.No",
+    },
+    {
+      key: "memberID",
+      title: "Member ID",
     },
     {
       key: "fname",
@@ -453,6 +457,7 @@ export const UserManagement = () => {
                         {currentItems?.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
+                            <td>{item?.family_id}</td>
                             <td className="text-capitalize">
                               {item?.first_name}
                             </td>

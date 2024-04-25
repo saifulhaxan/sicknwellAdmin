@@ -64,7 +64,9 @@ export const MembersManagement = () => {
   const filterData = data.filter(item =>
   (
     item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.email.toLowerCase().includes(inputValue.toLowerCase())
+    item?.email.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.last_name.toLowerCase().includes(inputValue.toLowerCase())
   )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -117,6 +119,10 @@ export const MembersManagement = () => {
     {
       key: "id",
       title: "S.No",
+    },
+    {
+      key: "memberID",
+      title: "Member ID",
     },
     {
       key: "fname",
@@ -194,7 +200,7 @@ export const MembersManagement = () => {
                   <div className="col-md-4 mb-2">
                     <h2 className="mainTitle">Members Management</h2>
                   </div>
-                  <div className="col-md-4 mb-2">
+                  <div className="col-md-6 mb-2">
                     <div className="addUser align-items-end">
                       {/* <SelectBox
                         selectClass="mainInput"
@@ -218,7 +224,7 @@ export const MembersManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="text" placeholder="Search by First Name OR Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="text" placeholder="Search by First Name, Last Name, Phone, Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                     </div>
                   </div>
                 </div>
@@ -233,6 +239,7 @@ export const MembersManagement = () => {
                         {currentItems.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
+                            <td>{item?.family_id}</td>
                             <td className="text-capitalize">
                               {item?.first_name}
                             </td>

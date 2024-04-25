@@ -35,7 +35,7 @@ const CustomInput = (props) => {
             <button type='button' className='eyeButton' onClick={togglePassType}><FontAwesomeIcon icon={typePass ? faEyeSlash : faEye} /></button>
           </div>
           :
-          <input type={props?.type} placeholder={props?.placeholderss} required={props?.required} id={props?.id} name={props?.name} className={props?.inputClass} onChange={props?.onChange} value={props.value} disabled={props.disabled}/>
+          <input type={props?.type} placeholder={props?.placeholder} required={props?.required} id={props?.id} name={props?.name} className={props?.inputClass} onChange={props?.onChange} value={props.value} disabled={props.disabled}/>
         }
       </div>
     </>
