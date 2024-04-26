@@ -66,7 +66,8 @@ export const MembersManagement = () => {
     item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.email.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.last_name.toLowerCase().includes(inputValue.toLowerCase())
+    item?.last_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.family_id.toLowerCase().includes(inputValue.toLowerCase())
   )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -270,7 +271,7 @@ export const MembersManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={itemsPerPage}
+                      itemsPerPage={data?.length <= 15 ? data?.length : itemsPerPage}
                       totalItems={filterData.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}

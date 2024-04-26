@@ -196,6 +196,39 @@ const MemeberDetails = () => {
   }
 
 
+  const handleSendEmail = () => {
+    document.querySelector('.loaderBox').classList.remove('d-none')
+
+    // Create a new FormData object
+    const formDataMethod = new FormData()
+     formDataMethod.append('user_id', id);
+    //  formDataMethod.append('member_id', '');
+
+    // Make the fetch request
+    fetch(`${BASE_URL}send_card_atmu/`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Token ${LogoutData}`
+      },
+      body: formDataMethod // Use the FormData object as the request body
+    })
+      .then(response => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        return response.json()
+      })
+      .then(data => {
+        document.querySelector('.loaderBox').classList.add('d-none')
+        console.log(data);
+        setShowModal2(true);
+        setTimeout(()=>{
+          setShowModal2(false);
+        }, 1500)
+       
+      })
+  }
+
+
   return (
     <>
       <DashboardLayout>
@@ -311,7 +344,7 @@ const MemeberDetails = () => {
                                         <div className="col-xl-4 col-md-4 mb-3">
                                           <h4 className="secondaryLabel">Membership Card</h4>
                                           <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${item?.membership_card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
-                                          {/* <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button> */}
+                                          <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
                                         </div>
                                       )}
                                       <div className="col-md-12">
@@ -415,6 +448,8 @@ const MemeberDetails = () => {
 
           <CustomButton variant='primaryButton' text='Update' type='button' onClick={handleUpdateMember} />
         </CustomModal>
+
+        <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='PDF sent successfully to User' />
       </DashboardLayout>
     </>
   );
