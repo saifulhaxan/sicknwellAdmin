@@ -277,6 +277,10 @@ export const UserManagement = () => {
       title: "Email Address",
     },
     {
+      key: "amount",
+      title: "Amount Paid",
+    },
+    {
       key: "cname",
       title: "Plan Type",
     },
@@ -419,7 +423,7 @@ export const UserManagement = () => {
                       /> */}
                       <div className="inputWrapper rel">
                         <input type="checkbox" name="filter_referred_by" id="filter" onChange={handleChangeFilter} />
-                        <label for="filter" className="ps-1">Reffered By:</label>
+                        <label for="filter" className="ps-1">Referred By:</label>
                       </div>
                       {/* <SelectBox
                         selectClass="mainInput"
@@ -435,7 +439,7 @@ export const UserManagement = () => {
                       <CustomInput type="date" inputClass="mainInput" label="Start Date" value={minDate} onChange={(e)=>{setMinDate(e.target.value)}}/>
                       <CustomInput type="date" inputClass="mainInput" label="End Date" value={maxDate} onChange={(e)=>{setMaxDate(e.target.value)}} />
 
-                      <CustomInput type="text" placeholder="Search by First Name OR Email" label="Search" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="text" placeholder="Search..." label="Search" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                       <div className="inputWrapper">
                         <CustomButton variant='primaryButton' text='Search' type='button' onClick={searchAction} />
                         {
@@ -466,6 +470,7 @@ export const UserManagement = () => {
                             </td>
                             <td>{item?.referred_by === "" ? 'Null' : item?.referred_by}</td>
                             <td>{item?.email}</td>
+                            <td className={item?.amount_paid === null ? 'text-danger' : 'text-success'}>{item?.amount_paid === null ? 'Not Paid' : `$${item?.amount_paid}`}</td>
                             <td className="text-capitalize">{item?.plan_type}</td>
                             <td>{item?.phone_number}</td>
                             <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : item?.role == 5 ? 'Family' : item?.role == 6 ? 'Employee' : 'Admin'}</td>

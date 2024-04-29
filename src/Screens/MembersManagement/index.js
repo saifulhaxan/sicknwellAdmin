@@ -67,7 +67,8 @@ export const MembersManagement = () => {
     item?.email.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.last_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.family_id.toLowerCase().includes(inputValue.toLowerCase())
+    item?.family_id.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.dob.toLowerCase().includes(inputValue.toLowerCase())
   )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -136,6 +137,14 @@ export const MembersManagement = () => {
     {
       key: "email",
       title: "Email Address",
+    },
+    {
+      key: "amount",
+      title: "Amount Paid",
+    },
+    {
+      key: "cname",
+      title: "Plan Type",
     },
 
     {
@@ -225,7 +234,7 @@ export const MembersManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="text" placeholder="Search by First Name, Last Name, Phone, Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="text" placeholder="Search by First Name, Last Name, Phone, Email, Member ID, DOB" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                     </div>
                   </div>
                 </div>
@@ -248,6 +257,8 @@ export const MembersManagement = () => {
                               {item?.last_name}
                             </td>
                             <td>{item?.email}</td>
+                            <td className={item?.amount_paid === null ? 'text-danger' : 'text-success'}>{item?.amount_paid === null ? 'Not Paid' : `$${item?.amount_paid}`}</td>
+                            <td className="text-capitalize">{item?.plan_type}</td>
                             <td>{item?.phone_number}</td>
                             <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : item?.role == 5 ? 'Family' : item?.role == 6 ? 'Employee' : 'Admin'}</td>
 
@@ -271,8 +282,8 @@ export const MembersManagement = () => {
                     </CustomTable>
 
                     <CustomPagination
-                      itemsPerPage={data?.length <= 15 ? data?.length : itemsPerPage}
-                      totalItems={filterData.length}
+                      itemsPerPage={filterData?.length <= 15 ? filterData?.length : itemsPerPage}
+                      totalItems={filterData?.length}
                       currentPage={currentPage}
                       onPageChange={handlePageChange}
                     />

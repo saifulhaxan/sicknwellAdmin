@@ -60,7 +60,11 @@ export const CompanyManagement = () => {
   const filterData = data.filter(item =>
     (
       item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) || 
-      item?.email.toLowerCase().includes(inputValue.toLowerCase())
+      item?.email.toLowerCase().includes(inputValue.toLowerCase()) ||
+      item?.last_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+      item?.company_name.toLowerCase().includes(inputValue.toLowerCase()) ||
+      item?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
+      item?.username.toLowerCase().includes(inputValue.toLowerCase())
     )
   );
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -256,7 +260,7 @@ export const CompanyManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="text" placeholder="Search by First Name OR Email" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="text" placeholder="Search..." value={inputValue} inputClass="mainInput" onChange={handleChange} />
                     </div>
                   </div>
                 </div>
