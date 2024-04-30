@@ -103,6 +103,13 @@ const UserManagementDetail = () => {
       })
   }
 
+
+  function formatDate(dateString) {
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+  }
+
+
   return (
     <>
       <DashboardLayout>
@@ -176,6 +183,21 @@ const UserManagementDetail = () => {
                       <h4 className="secondaryLabel">Plan</h4>
                       <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
                     </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Plan</h4>
+                      <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
+                    </div>
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Plan Type</h4>
+                      <p className="secondaryText">{profileData?.plan_type}</p>
+                    </div>
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Created On</h4>
+                      <p className="secondaryText">{formatDate(profileData?.date_joined)}</p>
+                    </div>
+
                     {profileData?.card_pdf && (
                     <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Membership Card</h4>

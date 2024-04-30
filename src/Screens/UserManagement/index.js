@@ -77,29 +77,29 @@ export const UserManagement = () => {
   //   const firstNameMatch = item?.first_name && item.first_name.toLowerCase().includes(inputLower);
   //   const emailMatch = item?.email && item.email.toLowerCase().includes(inputLower);
   //   const referredByMatch = item?.referred_by && item.referred_by.toLowerCase().includes(inputLower);
-  
+
   //   // Date range filtering
   //   const minDate = new Date(minDate); 
   //   const maxDate = new Date(maxDate); 
   //   const itemDate = new Date(item?.dob); 
-  
+
   //   const dateMatch = itemDate >= minDate && itemDate <= maxDate;
-  
+
   //   return (firstNameMatch || emailMatch || referredByMatch) && dateMatch;
   // });
 
 
 
-  
-// const filterData = data?.filter(item =>
-//     (
-//       (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
-//       (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
-//       (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
-//     )
-//   );
-  
-  
+
+  // const filterData = data?.filter(item =>
+  //     (
+  //       (item?.first_name && item.first_name.toLowerCase().includes(inputValue.toLowerCase())) ||
+  //       (item?.email && item.email.toLowerCase().includes(inputValue.toLowerCase())) ||
+  //       (item?.referred_by && item.referred_by.toLowerCase().includes(inputValue.toLowerCase()))
+  //     )
+  //   );
+
+
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -270,7 +270,7 @@ export const UserManagement = () => {
     },
     {
       key: 'refferedBy',
-      title: 'Reffered By'
+      title: 'Referred By'
     },
     {
       key: "email",
@@ -366,15 +366,29 @@ export const UserManagement = () => {
 
   const [csvData, setCsvData] = useState('');
   const [isExcel, setIsExcel] = useState(false);
-
+  const [downloadData, setDownloadData] = useState();
   // Event handler for the button click
   const handleDownload = async () => {
     try {
       // Fetch data from the API
       // const data = await fetchData();
       // Convert data to Excel format
+      setDownloadData(data.map(item => ({
+        id: item?.id,
+        referred_by: item?.referred_by,
+        date_joined: item?.date_joined,
+        plan_type: item?.plan_type,
+        username: item?.username,
+        first_name: item?.first_name,
+        last_name: item?.last_name,
+        dob: item?.dob,
+        additional_member: item?.additional_member,
+        amount_paid: item?.amount_paid == null ? 'Not Paid' : `$${item?.amount_paid}`
+      })));
+
+
       const workbook = XLSXUtils.book_new();
-      const sheet = XLSXUtils.json_to_sheet(data);
+      const sheet = XLSXUtils.json_to_sheet(downloadData);
       // Add bold style to header row
       sheet["!cols"] = [{ wch: 20 }, { wch: 20 }]; // Set column widths
       sheet["A1"].s = { font: { bold: true } }; // Set bold style for cell A1
@@ -383,14 +397,14 @@ export const UserManagement = () => {
 
       var today = new Date();
       var year = today.getFullYear();
-      var mes = today.getMonth()+1;
+      var mes = today.getMonth() + 1;
       var dia = today.getDate();
-      var currentDate =dia+"-"+mes+"-"+year;
- 
+      var currentDate = dia + "-" + mes + "-" + year;
+
 
       XLSXUtils.book_append_sheet(workbook, sheet, "Sheet1");
       // Export workbook to Excel file
-      writeExcelFile(workbook, 'SNW Referred By-'+currentDate+'(Report Generated).xlsx');
+      writeExcelFile(workbook, 'SNW Referred By-' + currentDate + '(Report Generated).xlsx');
     } catch (error) {
       console.error('Error downloading Excel:', error);
     }
@@ -436,8 +450,8 @@ export const UserManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="date" inputClass="mainInput" label="Start Date" value={minDate} onChange={(e)=>{setMinDate(e.target.value)}}/>
-                      <CustomInput type="date" inputClass="mainInput" label="End Date" value={maxDate} onChange={(e)=>{setMaxDate(e.target.value)}} />
+                      <CustomInput type="date" inputClass="mainInput" label="Start Date" value={minDate} onChange={(e) => { setMinDate(e.target.value) }} />
+                      <CustomInput type="date" inputClass="mainInput" label="End Date" value={maxDate} onChange={(e) => { setMaxDate(e.target.value) }} />
 
                       <CustomInput type="text" placeholder="Search..." label="Search" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                       <div className="inputWrapper">

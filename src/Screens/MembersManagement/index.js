@@ -64,10 +64,10 @@ export const MembersManagement = () => {
   const filterData = data.filter(item =>
   (
     item?.first_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.email.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.user_detail?.phone_number.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.last_name.toLowerCase().includes(inputValue.toLowerCase()) ||
-    item?.family_id.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.user_detail?.username.toLowerCase().includes(inputValue.toLowerCase()) ||
+    item?.user_detail?.family_id.toLowerCase().includes(inputValue.toLowerCase()) ||
     item?.dob.toLowerCase().includes(inputValue.toLowerCase())
   )
   );
@@ -77,7 +77,7 @@ export const MembersManagement = () => {
 
   const UserListing = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
-    fetch(`${BASE_URL}api/v1/users/list_all_users/`,
+    fetch(`${BASE_URL}api/v1/member/list_all_members/`,
       {
         method: 'GET',
         headers: {
@@ -127,6 +127,10 @@ export const MembersManagement = () => {
       title: "Member ID",
     },
     {
+      key: "puser",
+      title: "Primary User",
+    },
+    {
       key: "fname",
       title: "First Name",
     },
@@ -134,30 +138,24 @@ export const MembersManagement = () => {
       key: "lname",
       title: "Last Name",
     },
-    {
-      key: "email",
-      title: "Email Address",
-    },
+ 
     {
       key: "amount",
       title: "Amount Paid",
     },
-    {
-      key: "cname",
-      title: "Plan Type",
-    },
+
 
     {
       key: "number",
       title: "Phone",
     },
     {
-      key: "role",
-      title: "Role",
-    },
-    {
       key: "dob",
       title: "DOB",
+    },
+    {
+      key: "relationToMember",
+      title: "Relation"
     },
     {
       key: "actions",
@@ -234,7 +232,7 @@ export const MembersManagement = () => {
                           setSelectedStatus(e.target.value);
                         }}
                       /> */}
-                      <CustomInput type="text" placeholder="Search by First Name, Last Name, Phone, Email, Member ID, DOB" value={inputValue} inputClass="mainInput" onChange={handleChange} />
+                      <CustomInput type="text" placeholder="Search by First Name, Last Name, Phone, Member ID, DOB" value={inputValue} inputClass="mainInput" onChange={handleChange} />
                     </div>
                   </div>
                 </div>
@@ -249,21 +247,22 @@ export const MembersManagement = () => {
                         {currentItems.map((item, index) => (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{item?.family_id}</td>
+                            <td>{item?.user_detail?.family_id}</td>
+                            <td className="text-capitalize">
+                              {item?.user_detail?.username}
+                            </td>
                             <td className="text-capitalize">
                               {item?.first_name}
                             </td>
                             <td className="text-capitalize">
                               {item?.last_name}
                             </td>
-                            <td>{item?.email}</td>
-                            <td className={item?.amount_paid === null ? 'text-danger' : 'text-success'}>{item?.amount_paid === null ? 'Not Paid' : `$${item?.amount_paid}`}</td>
-                            <td className="text-capitalize">{item?.plan_type}</td>
-                            <td>{item?.phone_number}</td>
-                            <td>{item?.role == 1 ? 'Individual' : item?.role == 2 ? 'Couple' : item?.role == 3 ? 'Family' : item?.role == 5 ? 'Family' : item?.role == 6 ? 'Employee' : 'Admin'}</td>
-
-                            {/* <td>{item?.created_at}</td> */}
+                   
+                            <td className={item?.subscription?.amount_paid === "null" ? 'text-danger' : 'text-success'}>{`$${item?.subscription?.amount_paid}`}</td>
+                            <td>{item?.user_detail?.phone_number}</td>
+                            
                             <td>{item?.dob}</td>
+                            <td>{item?.relation_to_member1}</td>
                             {/* <td className={item?.status == 1 ? 'greenColor' : "redColor"}>{item?.status == 1 ? 'Active' : "Inactive"}</td> */}
                             <td>
                               <Dropdown className="tableDropdown">
@@ -271,7 +270,7 @@ export const MembersManagement = () => {
                                   <FontAwesomeIcon icon={faEllipsisV} />
                                 </Dropdown.Toggle>
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
-                                  <Link to={`/member-management/members-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
+                                  <Link to={`/member-management/members-detail/${item?.user_detail?.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   {/* <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link> */}
                                 </Dropdown.Menu>
                               </Dropdown>
