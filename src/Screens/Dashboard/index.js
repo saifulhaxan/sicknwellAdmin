@@ -95,7 +95,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -103,8 +103,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -112,12 +112,12 @@ export const Dashboard = () => {
                     <div className="statsCard">
                       <div className="statsContent">
                         <div className="statsData">
-                          <h3 className="statsNumber">{statistics?.total_active_subscriptions}</h3>
+                          <h3 className="statsNumber text-success">{statistics?.total_active_subscriptions}</h3>
                           <p className="statsText">Active Subscriptions</p>
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -125,8 +125,30 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-xl-4 col-md-6 stats mb-4">
+                    <div className="statsCard">
+                      <div className="statsContent">
+                        <div className="statsData">
+                          <h3 className="statsNumber text-danger">{statistics?.total_inactive_users}</h3>
+                          <p className="statsText">Inactive Users</p>
+                        </div>
+                      </div>
+                      <div className="statsChange">
+                        {/* <p>
+                          100%
+                          <FontAwesomeIcon
+                            icon={faArrowCircleUp}
+                            className="me-2 redColor"
+                          />
+
+
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -139,7 +161,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -147,8 +169,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -161,7 +183,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -169,8 +191,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -183,7 +205,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -191,8 +213,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -205,7 +227,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -213,8 +235,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -227,7 +249,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -235,8 +257,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -249,7 +271,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -257,8 +279,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>
@@ -271,7 +293,7 @@ export const Dashboard = () => {
                         </div>
                       </div>
                       <div className="statsChange">
-                        <p>
+                        {/* <p>
                           100%
                           <FontAwesomeIcon
                             icon={faArrowCircleUp}
@@ -279,8 +301,8 @@ export const Dashboard = () => {
                           />
 
 
-                        </p>
-                        <p>Since last week</p>
+                        </p> */}
+                        {/* <p>Since last week</p> */}
                       </div>
                     </div>
                   </div>

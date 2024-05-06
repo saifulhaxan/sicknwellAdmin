@@ -246,7 +246,7 @@ export const MembersManagement = () => {
                       <tbody>
                         {currentItems.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{index + 1 }</td>
                             <td>{item?.user_detail?.family_id}</td>
                             <td className="text-capitalize">
                               {item?.user_detail?.username}
