@@ -274,7 +274,7 @@ export const CompanyManagement = () => {
                       <tbody>
                         {currentItems.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{item?.serial_number}</td>
                             <td className="text-capitalize">
                               {item?.company_name}
                             </td>
