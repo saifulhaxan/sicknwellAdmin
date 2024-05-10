@@ -279,7 +279,7 @@ export const ProviderManagement = () => {
                       <tbody>
                         {currentItems.map((item, index) => (
                           <tr key={index}>
-                            <td>{index + 1}</td>
+                            <td>{item?.serial_number}</td>
                             <td className="text-capitalize">
                               <div className="tableImage">
                                 <img src={`https://member.sicknwell.com${item?.business_image}`} className="mw-100" />
