@@ -245,6 +245,7 @@ export const UserManagement = () => {
 
   useEffect(() => {
     // document.querySelector('.loaderBox').classList.remove("d-none");
+    
     document.title = 'SicknWell | User Management';
     UserListing()
   }, []);
