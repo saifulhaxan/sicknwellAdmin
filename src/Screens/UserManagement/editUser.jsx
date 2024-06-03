@@ -283,7 +283,6 @@ export const EditUserDetails = () => {
                       <div className="col-md-4 mb-4">
                         <CustomInput
                           label='Referred By'
-                          required
                           id='referred_by'
                           type='text'
                           placeholder='Enter Referred By'
