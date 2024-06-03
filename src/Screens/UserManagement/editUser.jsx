@@ -281,6 +281,20 @@ export const EditUserDetails = () => {
                         />
                       </div>
                       <div className="col-md-4 mb-4">
+                        <CustomInput
+                          label='Referred By'
+                          required
+                          id='referred_by'
+                          type='text'
+                          placeholder='Enter Referred By'
+                          labelClass='mainLabel'
+                          inputClass='mainInput'
+                          name="referred_by"
+                          value={formData.referred_by}
+                          onChange={handleChange}
+                        />
+                      </div>
+                      <div className="col-md-4 mb-4">
                         <SelectBox
                           selectClass="mainInput"
                           name="is_active"

@@ -76,7 +76,7 @@ const UserManagementDetail = () => {
 
     // Create a new FormData object
     const formDataMethod = new FormData()
-     formDataMethod.append('user_id', id);
+    formDataMethod.append('user_id', id);
     //  formDataMethod.append('member_id', '');
 
     // Make the fetch request
@@ -99,7 +99,7 @@ const UserManagementDetail = () => {
         setTimeout(()=>{
           setShowModal(false);
         }, 1500)
-       
+
       })
   }
 
@@ -175,7 +175,7 @@ const UserManagementDetail = () => {
                       <h4 className="secondaryLabel">User Name</h4>
                       <p className="secondaryText">{profileData?.username}</p>
                     </div>
-                     <div className="col-xl-4 col-md-4 mb-3">
+                    <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Additional Members</h4>
                       <p className="secondaryText">{`${profileData?.additional_member} Members`}</p>
                     </div>
@@ -199,12 +199,17 @@ const UserManagementDetail = () => {
                     </div>
 
                     {profileData?.card_pdf && (
-                    <div className="col-xl-4 col-md-4 mb-3">
-                      <h4 className="secondaryLabel">Membership Card</h4>
-                      <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${profileData?.card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
-                      <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
-                    </div>
+                      <div className="col-xl-4 col-md-4 mb-3">
+                        <h4 className="secondaryLabel">Membership Card</h4>
+                        <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${profileData?.card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
+                        <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
+                      </div>
                     )}
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Referred By</h4>
+                      <p className="secondaryText">{profileData?.referred_by}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -212,7 +217,7 @@ const UserManagementDetail = () => {
           </div>
         </div>
 
-      {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' /> */}
+        {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' /> */}
         <CustomModal show={showModal} close={() => { setShowModal(false) }} success heading='PDF sent successfully to User' />
 
         <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={Active} heading='Are you sure you want to mark this user as Active?' />
