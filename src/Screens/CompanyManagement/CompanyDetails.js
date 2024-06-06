@@ -143,10 +143,11 @@ export const CompanyDetails = () => {
         return response.json()
       })
       .then((data) => {
-        setProfileData(data)
+        // setProfileData(data)
         document.querySelector('.loaderBox').classList.add("d-none");
         // document.querySelector('body').classList.remove('loaderShow');
         setShowModal(false);
+        PrimaryUserDetai()
         console.log(data)
       })
       .catch((error) => {
@@ -221,14 +222,16 @@ export const CompanyDetails = () => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // document.querySelector('body').classList.remove('loaderShow');
         setShowEdit(false);
+        alert(data.message);
         console.log(data)
         PrimaryUserDetai()
-    MembersDetail()
+        MembersDetail()
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add("d-none");
         // document.querySelector('body').classList.remove('loaderShow');
         console.log(error);
+        alert(error.message);
       })
   }
 
@@ -296,12 +299,14 @@ export const CompanyDetails = () => {
               } */}
 
               {
-                profileData?.stripe_product_id == '' ? (
+                profileData?.stripe_product_id == '' || null ? (
                   <button type="button" onClick={() => { setShowModal(true) }} className="btn border-0">
                     <FontAwesomeIcon icon={faEdit} />
                     Add Package Price
                   </button>
-                ) : profileData?.subscription_status != "active" ? (
+                ) :
+                profileData?.subscription_status =="Cancelled" ? '' : 
+                (profileData?.subscription_status != "active" ? (
 
                   <button type="button" onClick={() => { setShowModal1(true) }} className="btn border-0">
                     <FontAwesomeIcon icon={faEdit} />
@@ -312,7 +317,8 @@ export const CompanyDetails = () => {
                     <FontAwesomeIcon icon={faEdit} />
                     Change Subscription Price
                   </button>
-                )
+                ) 
+              )
               }
 
 

@@ -136,6 +136,7 @@ export const CompanyManagement = () => {
         setShowModal(true)
         setTimeout(() => {
           setShowModal(false)
+          UserListing()
         }, 1500)
        
       })
