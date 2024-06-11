@@ -69,11 +69,7 @@ export const UserManagement = () => {
 
   const handleChange = (e) => {
     setInputValue(e.target.value);
-
-
   }
-
-
 
   // const filterData = data?.filter(item => {
   //   const inputLower = inputValue.toLowerCase();
@@ -194,35 +190,45 @@ export const UserManagement = () => {
       })
   }
 
-  const UserDelete = (userID) => {
-    document.querySelector('.loaderBox').classList.remove("d-none");
-    setShowModal5(false);
-    fetch(`${BASE_URL}api/v1/users/${userID}/`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${LogoutData}`
-        },
-      }
-    )
+ const UserDelete = () => {
+  document.querySelector('.loaderBox').classList.remove("d-none");
+  setShowModal5(false);
+  
+  fetch(`${BASE_URL}api/v1/users/${userID}/`, {
+    method: 'DELETE',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Authorization': `Token ${LogoutData}`
+    },
+  })
+  .then(response => {
+    document.querySelector('.loaderBox').classList.add("d-none");
+    
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    
+    // Check if the response has content
+    if (response.status === 204) {
+      return null; // No content to parse
+    }
+    
+    return response.json();
+  })
+  .then(data => {
+    if (data) {
+      console.log(data);
+    }
+    setShowModal6(true);
+    UserListing();
+  })
+  .catch(error => {
+    document.querySelector('.loaderBox').classList.add("d-none");
+    console.log(error);
+  });
+}
 
-      .then(response =>
-        response.json()
-      )
-      .then((data) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        setShowModal6(true);
-        UserListing();
-        console.log(data)
-        // setData(data);
-      })
-      .catch((error) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        console.log(error)
-      })
-  }
 
   const dateFormat = (dateFor) => {
     const datetimeString = dateFor;
