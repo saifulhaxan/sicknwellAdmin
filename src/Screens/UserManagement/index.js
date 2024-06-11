@@ -40,6 +40,8 @@ export const UserManagement = () => {
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
+  const [showModal5, setShowModal5] = useState(false);
+  const [showModal6, setShowModal6] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(15);
   const [inputValue, setInputValue] = useState('');
@@ -49,6 +51,7 @@ export const UserManagement = () => {
   const [searchData, setSearchData] = useState();
   const [csv, setCsv] = useState();
   const LogoutData = localStorage.getItem('login');
+  const [userID, setUserID] = useState();
 
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -193,6 +196,7 @@ export const UserManagement = () => {
 
   const UserDelete = (userID) => {
     document.querySelector('.loaderBox').classList.remove("d-none");
+    setShowModal5(false);
     fetch(`${BASE_URL}api/v1/users/${userID}/`,
       {
         method: 'DELETE',
@@ -209,6 +213,7 @@ export const UserManagement = () => {
       )
       .then((data) => {
         document.querySelector('.loaderBox').classList.add("d-none");
+        setShowModal6(true);
         UserListing();
         console.log(data)
         // setData(data);
@@ -502,7 +507,10 @@ export const UserManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/user-management/user-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/user-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
-                                  <button type="button" className="border-0 tableAction" onClick={() => { UserDelete(item?.id) }}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
+                                  <button type="button" className="border-0 tableAction" onClick={() => { 
+                                    setShowModal5(true);
+                                    setUserID(item?.id)
+                                     }}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
                                 </Dropdown.Menu>
                               </Dropdown>
                             </td>
@@ -529,7 +537,8 @@ export const UserManagement = () => {
           <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={ActiveMale} heading='Are you sure you want to mark this user as Active?' />
           <CustomModal show={showModal4} close={() => { setShowModal4(false) }} success heading='Marked as Active' />
 
-
+          <CustomModal show={showModal5} close={() => { setShowModal5(false) }} action={UserDelete} heading='Are you sure you want to remove this user?' />
+          <CustomModal show={showModal6} close={() => { setShowModal6(false) }} success heading='Deleted Sucessfully' />
 
         </div>
       </DashboardLayout>
