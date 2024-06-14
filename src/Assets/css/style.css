@@ -173,6 +173,22 @@ span.btnSequence {
     margin-bottom: 0.2rem;
 }
 
+.GreenText {
+    font-size: 15px;
+    font-weight: 700;
+    color: #42C900;
+    margin-bottom: 0.2rem;
+    text-transform: capitalize;
+}
+
+.RedText {
+    font-size: 15px;
+    font-weight: 700;
+    color: #ec202f;
+    margin-bottom: 0.2rem;
+    text-transform: capitalize;
+}
+
 
 .custom-loader {
     width:50px;
