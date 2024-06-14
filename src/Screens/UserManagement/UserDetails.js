@@ -183,10 +183,6 @@ const UserManagementDetail = () => {
                       <h4 className="secondaryLabel">Plan</h4>
                       <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
                     </div>
-                    <div className="col-xl-4 col-md-4 mb-3">
-                      <h4 className="secondaryLabel">Plan</h4>
-                      <p className="secondaryText">{profileData?.additional_member == '0' ? 'Individual Plan' : profileData?.additional_member == '1' ? "Couple Plan" : "Family Plan"} </p>
-                    </div>
 
                     <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Plan Type</h4>
@@ -198,18 +194,29 @@ const UserManagementDetail = () => {
                       <p className="secondaryText">{formatDate(profileData?.date_joined)}</p>
                     </div>
 
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Referred By</h4>
+                      <p className="secondaryText">{profileData?.referred_by}</p>
+                    </div>
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Recurring</h4>
+                      <p className="secondaryText">{profileData?.recurring}</p>
+                    </div>
+
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Subscription Status</h4>
+                      <p className={profileData?.subscription_status == "active" ? "GreenText" : "RedText"}>{profileData?.subscription_status}</p>
+                      </div>
+
                     {profileData?.card_pdf && (
-                      <div className="col-xl-4 col-md-4 mb-3">
+                      <div className="col-xl-12 col-md-12 mb-3">
                         <h4 className="secondaryLabel">Membership Card</h4>
                         <p className="secondaryText"><a className="pdfCover" href={`https://member.sicknwell.com${profileData?.card_pdf}`} download target="_blank"><FontAwesomeIcon icon={faFilePdf}></FontAwesomeIcon></a></p>
                         <button type="button" className="customButton primaryButton mb-3" onClick={handleSendEmail}>Send Membership Card</button>
                       </div>
                     )}
 
-                    <div className="col-xl-4 col-md-4 mb-3">
-                      <h4 className="secondaryLabel">Referred By</h4>
-                      <p className="secondaryText">{profileData?.referred_by}</p>
-                    </div>
                   </div>
                 </div>
               </div>
