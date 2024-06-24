@@ -36,9 +36,10 @@ const ProviderDetails = () => {
   const [addProduct, setAddProduct] = useState(false);
   const [editForm, setEditForm] = useState(false);
   const [editModal, setEditModal] = useState(false);
+  const [showSequence, setShowSequence] = useState(false);
   const [formData, setFormData] = useState({
-    provider_directory: id,
-    description: 'Dental'
+    provider_directory_id: id,
+    // description: 'Dental'
   });
 
 
@@ -121,6 +122,54 @@ const ProviderDetails = () => {
       id: proID
     })
   }
+
+  const updateSwaping = (event) => {
+    event.preventDefault();
+    document.querySelector('.loaderBox').classList.remove('d-none')
+
+    // Create a new FormData object
+    const formDataMethod = new FormData()
+    for (const key in formData) {
+        formDataMethod.append(key, formData[key])
+    }
+
+    // Make the fetch request
+    fetch(`${BASE_URL}api/v1/provider_service/switch_sequence/`, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Token ${LogoutData}`
+        },
+        body: formDataMethod // Use the FormData object as the request body
+    })
+        .then(response => {
+            document.querySelector('.loaderBox').classList.add('d-none')
+            return response.json()
+        })
+        .then(data => {
+            document.querySelector('.loaderBox').classList.add('d-none')
+            console.log(data);
+            setShowSequence(false);
+            setEditModal(true);
+            setTimeout(() => {
+                setEditModal(false);
+            }, 1500);
+
+            getProviderDetail();
+        })
+        .catch((error) => {
+            document.querySelector('.loaderBox').classList.add('d-none')
+            console.log(error);
+        })
+}
+
+  const editSequence = (sequenceID) => {
+    setShowSequence(true)
+    setFormData({
+        ...formData,
+        seq1_id: sequenceID
+    })
+}
 
   const editSubmit = (productID) => {
     // event.preventDefault()
@@ -206,22 +255,24 @@ const ProviderDetails = () => {
       })
   }
 
-
-
-
+  
 
   const productHeader = [
+    {
+      key: 'sno',
+      title: 'S.No',
+    },
     {
       key: 'name',
       title: 'Product Name',
     },
     {
       key: 'price',
-      title: 'Price Name',
+      title: 'Price',
     },
     {
       key: 'action',
-      title: 'Action',
+      title: 'Actions',
     }
   ]
 
@@ -295,6 +346,7 @@ const ProviderDetails = () => {
                       <tbody>
                         {profileData?.provider_services_directory?.map((item, index) => (
                           <tr key={index}>
+                          <td><span className="btnSequence" onClick={() => { editSequence(item?.sequence) }}>{item?.sequence}</span></td>
                             <td className="text-capitalize">
                               {item.name}
                             </td>
@@ -397,6 +449,30 @@ const ProviderDetails = () => {
           />
           <CustomButton variant='primaryButton' text='Update' type='button' onClick={() => { editSubmit(formData?.id) }} />
         </CustomModal>
+
+        <CustomModal show={showSequence} close={() => { setShowSequence(false) }} >
+                    <h5 className="text-center mb-3">Your Current Sequence is <span className="text-success">{formData?.seq1_id}</span></h5>
+                    <form>
+                        <CustomInput
+                            label="Swap Sequence"
+                            type="number"
+                            placeholder="Enter New Sequence Number"
+                            required
+                            name="seq2_id"
+                            labelClass='mainLabel'
+                            inputClass='mainInput'
+                            onChange={(event) => {
+                                setFormData({ ...formData, seq2_id: event.target.value });
+                                console.log(formData);
+                            }}
+
+                        />
+
+                        <CustomButton variant='primaryButton' text='Update' type='button' onClick={updateSwaping} />
+                    </form>
+
+
+                </CustomModal>
 
         <CustomModal show={addProduct} close={() => { setAddProduct(false) }} success heading='Product Added Successfully!' />
         <CustomModal show={editModal} close={() => { setEditModal(false) }} success heading='Product Update Successfully!' />
