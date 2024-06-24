@@ -414,7 +414,7 @@ export const FaqsListing = () => {
                         <CustomInput
                             label="Swap Sequence"
                             type="number"
-                            placeholder="Edit Question"
+                            placeholder="Enter New Sequence Number"
                             required
                             name="seq2_id"
                             labelClass='mainLabel'
