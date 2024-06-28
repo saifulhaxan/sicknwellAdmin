@@ -205,7 +205,7 @@ export const EditUserDetails = () => {
                           labelClass='mainLabel'
                           inputClass='mainInput'
                           name="email"
-                          disabled
+                          // disabled
                           value={formData?.email}
                           onChange={handleChange}
                         />
