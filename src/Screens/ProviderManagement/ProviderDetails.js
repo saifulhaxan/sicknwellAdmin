@@ -38,8 +38,11 @@ const ProviderDetails = () => {
   const [editModal, setEditModal] = useState(false);
   const [showSequence, setShowSequence] = useState(false);
   const [formData, setFormData] = useState({
+    provider_directory: id,
+    description: 'Dental'
+  });
+  const [swapFormData, setSwapFormData] = useState({
     provider_directory_id: id,
-    // description: 'Dental'
   });
 
 
@@ -129,8 +132,8 @@ const ProviderDetails = () => {
 
     // Create a new FormData object
     const formDataMethod = new FormData()
-    for (const key in formData) {
-        formDataMethod.append(key, formData[key])
+    for (const key in swapFormData) {
+        formDataMethod.append(key, swapFormData[key])
     }
 
     // Make the fetch request
@@ -165,8 +168,8 @@ const ProviderDetails = () => {
 
   const editSequence = (sequenceID) => {
     setShowSequence(true)
-    setFormData({
-        ...formData,
+    setSwapFormData({
+        ...swapFormData,
         seq1_id: sequenceID
     })
 }
@@ -241,13 +244,10 @@ const ProviderDetails = () => {
         console.log(data);
         // setEditForm(false);
         // setEditModal(true);
-        // setTimeout(() => {
-        //   setEditModal(false);
-        // }, 1500);
-
-        getProviderDetail();
-
-
+        setTimeout(() => {
+          // setEditModal(false);
+          getProviderDetail()
+        }, 1500);
       })
       .catch((error) => {
         document.querySelector('.loaderBox').classList.add('d-none')
@@ -462,8 +462,8 @@ const ProviderDetails = () => {
                             labelClass='mainLabel'
                             inputClass='mainInput'
                             onChange={(event) => {
-                                setFormData({ ...formData, seq2_id: event.target.value });
-                                console.log(formData);
+                              setSwapFormData({ ...swapFormData, seq2_id: event.target.value });
+                                console.log(swapFormData);
                             }}
 
                         />
