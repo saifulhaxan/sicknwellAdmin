@@ -33,10 +33,13 @@ const ProviderDetails = () => {
   const [profileData, setProfileData] = useState({});
 
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
+  const [showModal2, setShowModal2] = useState(false);
   const [addProduct, setAddProduct] = useState(false);
   const [editForm, setEditForm] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [showSequence, setShowSequence] = useState(false);
+  const [providerID, setProviderID] = useState();
   const [formData, setFormData] = useState({
     provider_directory: id,
     description: 'Dental'
@@ -216,44 +219,52 @@ const ProviderDetails = () => {
       })
   }
 
-  const deleteProduct = (productID) => {
+  const deleteProduct = () => {
     // event.preventDefault()
-    document.querySelector('.loaderBox').classList.remove('d-none')
-
+    document.querySelector('.loaderBox').classList.remove('d-none');
+    setShowModal1(false);
+  
     // Create a new FormData object
-    const formDataMethod = new FormData()
+    const formDataMethod = new FormData();
     for (const key in formData) {
-      formDataMethod.append(key, formData[key])
+      formDataMethod.append(key, formData[key]);
     }
-
+  
     // Make the fetch request
-    fetch(`${BASE_URL}api/v1/provider_service/${productID}/`, {
+    console.log("data for provider id--", providerID);
+    fetch(`${BASE_URL}api/v1/provider_service/${providerID}/`, {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'Authorization': `Token ${LogoutData}`
       },
       body: formDataMethod // Use the FormData object as the request body
     })
-      .then(response => {
-        document.querySelector('.loaderBox').classList.add('d-none')
-        return response.json()
-      })
-      .then(data => {
-        document.querySelector('.loaderBox').classList.add('d-none')
-        console.log(data);
-        // setEditForm(false);
-        // setEditModal(true);
-        setTimeout(() => {
-          // setEditModal(false);
-          getProviderDetail()
-        }, 1500);
-      })
-      .catch((error) => {
-        document.querySelector('.loaderBox').classList.add('d-none')
-        console.log(error);
-      })
+    .then(response => {
+      document.querySelector('.loaderBox').classList.add('d-none');
+  
+      if (response.status === 204) {
+        return {}; // Return an empty object for 204 No Content
+      } else {
+        return response.json();
+      }
+    })
+    .then(data => {
+      document.querySelector('.loaderBox').classList.add('d-none');
+      console.log(data);
+      setShowModal2(true);
+      setTimeout(() => {
+        setShowModal2(false);
+        getProviderDetail();
+      }, 1500);
+    })
+    .catch((error) => {
+      document.querySelector('.loaderBox').classList.add('d-none');
+      console.log(error);
+    });
   }
+  
 
   
 
@@ -364,7 +375,8 @@ const ProviderDetails = () => {
                                     setEditForm(true)
                                   }} className="tableAction"><FontAwesomeIcon icon={faPencil} className="tableActionIcon" />Edit</button>
                                    <button onClick={() => {
-                                    deleteProduct(item.id)
+                                    setShowModal1(true);
+                                    setProviderID(item?.id)
                                   }} className="tableAction"><FontAwesomeIcon icon={faTrash} className="tableActionIcon" />Delete</button>
                                 </Dropdown.Menu>
                               </Dropdown>
@@ -476,6 +488,10 @@ const ProviderDetails = () => {
 
         <CustomModal show={addProduct} close={() => { setAddProduct(false) }} success heading='Product Added Successfully!' />
         <CustomModal show={editModal} close={() => { setEditModal(false) }} success heading='Product Update Successfully!' />
+
+        <CustomModal show={showModal1} close={() => { setShowModal1(false) }} action={deleteProduct} heading='Are you sure you want to remove this provider?' />
+        <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Deleted Sucessfully' />
+
         {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' />
         
 
