@@ -34,12 +34,14 @@ export const ProviderManagement = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [inputValue, setInputValue] = useState('');
+  const [userID, setUserID] = useState();
   const [selectedStatus, setSelectedStatus] = useState('')
   const LogoutData = localStorage.getItem('login');
 
@@ -97,8 +99,9 @@ export const ProviderManagement = () => {
       })
   }
 
-  const UserDelete = (userID) => {
+  const UserDelete = () => {
     document.querySelector('.loaderBox').classList.remove("d-none");
+    setShowModal(false);
   
     fetch(`${BASE_URL}api/v1/provider-directories/${userID}/`, {
       method: 'DELETE',
@@ -109,6 +112,8 @@ export const ProviderManagement = () => {
       },
     })
     .then((response) => {
+      document.querySelector('.loaderBox').classList.add("d-none");
+  
       if (!response.ok) {
         // Check if the response contains JSON data
         const contentType = response.headers.get('content-type');
@@ -123,14 +128,18 @@ export const ProviderManagement = () => {
         }
       }
   
-      // If successful, proceed with further actions
+      // Check if the response status is 204 No Content
+      if (response.status === 204) {
+        return {}; // Return an empty object for 204 No Content
+      }
+  
+      // If successful and has content, parse the response as JSON
       return response.json();
     })
     .then((data) => {
-      document.querySelector('.loaderBox').classList.add("d-none");
-      showModal(true);
+      setShowModal1(true)
       setTimeout(() => {
-        showModal(false);
+        setShowModal1(false);
       }, 1000);
       UserListing();
       console.log(data);
@@ -140,6 +149,7 @@ export const ProviderManagement = () => {
       console.log(error.message || 'Unexpected error occurred');
     });
   }
+  
   
   
 
@@ -299,7 +309,10 @@ export const ProviderManagement = () => {
                                 <Dropdown.Menu align="end" className="tableDropdownMenu">
                                   <Link to={`/provider-management/provider-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEye} className="tableActionIcon" />View</Link>
                                   <Link to={`/provider-management/edit-detail/${item.id}`} className="tableAction"><FontAwesomeIcon icon={faEdit} className="tableActionIcon" />Edit</Link>
-                                  <button type="button" className="border-0 tableAction" onClick={()=>{UserDelete(item?.id)}}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
+                                  <button type="button" className="border-0 tableAction" onClick={()=>{
+                                    setShowModal(true)
+                                    setUserID(item?.id)
+                                    }}> <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon> Remove</button>
                                 
                                 </Dropdown.Menu>
                               </Dropdown>
@@ -325,7 +338,9 @@ export const ProviderManagement = () => {
           <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Marked as Inactive' />
 
           <CustomModal show={showModal3} close={() => { setShowModal3(false) }} action={ActiveMale} heading='Are you sure you want to mark this user as Active?' /> */}
-          <CustomModal show={showModal} close={() => { setShowModal(false) }} success heading='Provider Removed Successfully!' />
+
+          <CustomModal show={showModal} close={() => { setShowModal(false) }} action={UserDelete} heading='Are you sure you want to remove this provider?' />
+          <CustomModal show={showModal1} close={() => { setShowModal1(false) }} success heading='Provider Removed Successfully!' />
 
 
 
