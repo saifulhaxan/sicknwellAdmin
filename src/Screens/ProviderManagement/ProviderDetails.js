@@ -489,7 +489,7 @@ const ProviderDetails = () => {
         <CustomModal show={addProduct} close={() => { setAddProduct(false) }} success heading='Product Added Successfully!' />
         <CustomModal show={editModal} close={() => { setEditModal(false) }} success heading='Product Update Successfully!' />
 
-        <CustomModal show={showModal1} close={() => { setShowModal1(false) }} action={deleteProduct} heading='Are you sure you want to remove this provider?' />
+        <CustomModal show={showModal1} close={() => { setShowModal1(false) }} action={deleteProduct} heading='Are you sure you want to remove this service?' />
         <CustomModal show={showModal2} close={() => { setShowModal2(false) }} success heading='Deleted Sucessfully' />
 
         {/* <CustomModal show={showModal} close={() => { setShowModal(false) }} action={inActive} heading='Are you sure you want to mark this user as inactive?' />
