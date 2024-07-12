@@ -73,7 +73,7 @@ export const EditUserDetails = () => {
     for (const key in formData) {
       formDataMethod.append(key, formData[key]);
     }
-
+  
     // Make the fetch request
     fetch(`${BASE_URL}/api/v1/users/${id}/`, {
       method: 'PUT',
@@ -85,15 +85,26 @@ export const EditUserDetails = () => {
     })
       .then((response) => {
         document.querySelector('.loaderBox').classList.add("d-none");
+  
+        if (response.ok) {
+          alert("User Updated Successfully!");
+          navigate('/user-management');
+        } else {
+          alert("Something went wrong!");
+        }
+  
         return response.json();
       })
       .then((data) => {
-        document.querySelector('.loaderBox').classList.add("d-none");
-        alert("User Updated Successfully!");
-        navigate('/user-management');
         console.log(data);
+      })
+      .catch((error) => {
+        document.querySelector('.loaderBox').classList.add("d-none");
+        alert("Something went wrong!");
+        console.error('Error:', error);
       });
   };
+  
 
 
   const GetUserDetail = () => {
