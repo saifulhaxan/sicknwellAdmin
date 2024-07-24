@@ -293,10 +293,10 @@ export const EditUserDetails = () => {
                       </div>
                       <div className="col-md-4 mb-4">
                         <CustomInput
-                          label='Promo Code'
+                          label='Promo Code or Referred By'
                           id='referred_by'
                           type='text'
-                          placeholder='Enter Promo Code'
+                          placeholder='Enter Promo Code or Referred By'
                           labelClass='mainLabel'
                           inputClass='mainInput'
                           name="referred_by"
