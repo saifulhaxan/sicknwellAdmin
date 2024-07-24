@@ -282,7 +282,7 @@ export const UserManagement = () => {
     },
     {
       key: 'refferedBy',
-      title: 'Referred By'
+      title: 'Promo Code'
     },
     {
       key: "email",
@@ -416,7 +416,7 @@ export const UserManagement = () => {
 
       XLSXUtils.book_append_sheet(workbook, sheet, "Sheet1");
       // Export workbook to Excel file
-      writeExcelFile(workbook, 'SNW Referred By-' + currentDate + '(Report Generated).xlsx');
+      writeExcelFile(workbook, 'SNW Promo Code-' + currentDate + '(Report Generated).xlsx');
     } catch (error) {
       console.error('Error downloading Excel:', error);
     }
@@ -449,7 +449,7 @@ export const UserManagement = () => {
                       /> */}
                       <div className="inputWrapper rel">
                         <input type="checkbox" name="filter_referred_by" id="filter" onChange={handleChangeFilter} />
-                        <label for="filter" className="ps-1">Referred By:</label>
+                        <label for="filter" className="ps-1">Promo Code:</label>
                       </div>
                       {/* <SelectBox
                         selectClass="mainInput"

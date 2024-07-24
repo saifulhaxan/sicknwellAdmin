@@ -195,7 +195,7 @@ const UserManagementDetail = () => {
                     </div>
 
                     <div className="col-xl-4 col-md-4 mb-3">
-                      <h4 className="secondaryLabel">Referred By</h4>
+                      <h4 className="secondaryLabel">Promo Code</h4>
                       <p className="secondaryText">{profileData?.referred_by}</p>
                     </div>
 
