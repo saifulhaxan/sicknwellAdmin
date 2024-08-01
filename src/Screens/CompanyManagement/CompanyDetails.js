@@ -74,6 +74,7 @@ export const CompanyDetails = () => {
       })
       .then((data) => {
         setProfileData(data)
+        console.log("data for comapny id:=====================",data)
         document.querySelector('.loaderBox').classList.add("d-none");
         document.querySelector('body').classList.remove('loaderShow');
         console.log(data)
@@ -546,7 +547,7 @@ export const CompanyDetails = () => {
             inputClass='mainInput'
             onChange={(e)=>{
               setFormData({
-                ...formData, new_price: parseInt(e.target.value)
+                ...formData, new_price: parseInt(e.target.value), company_id: profileData?.id
               })
 
               console.log(typeof(formData?.new_price))
