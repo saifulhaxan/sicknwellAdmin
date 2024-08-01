@@ -547,7 +547,7 @@ export const CompanyDetails = () => {
             inputClass='mainInput'
             onChange={(e)=>{
               setFormData({
-                ...formData, new_price: parseInt(e.target.value), company_id: profileData?.id
+                ...formData, new_price: parseFloat(e.target.value), company_id: profileData?.id
               })
 
               console.log(typeof(formData?.new_price))
