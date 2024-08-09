@@ -18,6 +18,7 @@ import CustomModal from "../../Components/CustomModal";
 import { BASE_URL } from "../../Api/apiConfig";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilePdf } from "@fortawesome/free-solid-svg-icons";
+import dayjs from "dayjs";
 
 const UserManagementDetail = () => {
 
@@ -190,10 +191,22 @@ const UserManagementDetail = () => {
                     </div>
 
                     <div className="col-xl-4 col-md-4 mb-3">
-                      <h4 className="secondaryLabel">Created On</h4>
+                      <h4 className="secondaryLabel">Created At</h4>
                       <p className="secondaryText">{formatDate(profileData?.date_joined)}</p>
                     </div>
-
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Updated At</h4>
+                      <p className="secondaryText">{dayjs(profileData?.updated_at).format('MM/DD/YYYY')}</p>
+                    </div>
+                    {
+                      profileData && profileData.role==="6" ? 
+                      <div className="col-xl-4 col-md-4 mb-3">
+                        <h4 className="secondaryLabel">Company Name</h4>
+                        <p className="secondaryText">{profileData?.company_name}</p>
+                      </div> 
+                      :
+                      ''
+                    }
                     <div className="col-xl-4 col-md-4 mb-3">
                       <h4 className="secondaryLabel">Promo Code or Referred By</h4>
                       <p className="secondaryText">{profileData?.referred_by}</p>
