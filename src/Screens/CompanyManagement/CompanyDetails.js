@@ -26,6 +26,7 @@ import CustomInput from "../../Components/CustomInput";
 import CustomButton from "../../Components/CustomButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+const dayjs = require('dayjs');
 
 export const CompanyDetails = () => {
 
@@ -383,6 +384,14 @@ export const CompanyDetails = () => {
                       <h4 className="secondaryLabel">Zipcode</h4>
                       <p className="secondaryText">{profileData?.zip_code}</p>
                     </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Created At</h4>
+                      <p className="secondaryText">{dayjs(profileData?.date_joined).format('MM/DD/YYYY')}</p>
+                    </div>
+                    <div className="col-xl-4 col-md-4 mb-3">
+                      <h4 className="secondaryLabel">Updated At</h4>
+                      <p className="secondaryText">{dayjs(profileData?.updated_at).format('MM/DD/YYYY')}</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -443,7 +452,7 @@ export const CompanyDetails = () => {
                               {
                                 profileData?.employees && profileData?.employees?.map((item, index) => (
                                   <Nav.Item>
-                                    <Nav.Link eventKey={`Employee ${index + 1}`}>{`Employee ${index + 1}`}</Nav.Link>
+                                    <Nav.Link eventKey={`Employee ${index + 1}`}>{`${item.first_name} ${item.last_name}`}</Nav.Link>
                                   </Nav.Item>
                                 ))
                               }
